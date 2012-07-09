@@ -1,0 +1,72 @@
+This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
+The top-level auxiliary file: ASP_Modules.aux
+The style file: abbrv.bst
+Database file #1: ASP_Modules.bib
+A bad cross reference---entry "DBLP:conf/datalog/Costantini10"
+refers to entry "DBLP:conf/datalog/2010", which doesn't exist
+A bad cross reference---entry "DBLP:conf/ijcai/SakamaSP11"
+refers to entry "DBLP:conf/ijcai/2011", which doesn't exist
+A bad cross reference---entry "DBLP:conf/atal/BaralGSP10"
+refers to entry "DBLP:conf/atal/2010", which doesn't exist
+A bad cross reference---entry "DBLP:conf/ecai/BourgneIM10"
+refers to entry "DBLP:conf/ecai/2010", which doesn't exist
+A bad cross reference---entry "DBLP:conf/lads/BourgneIM10"
+refers to entry "DBLP:conf/lads/2010", which doesn't exist
+A bad cross reference---entry "DBLP:conf/clima/NieuwenborghVHV06"
+refers to entry "DBLP:conf/clima/2006", which doesn't exist
+A bad cross reference---entry "DBLP:conf/lpnmr/Costantini09"
+refers to entry "DBLP:conf/lpnmr/2009", which doesn't exist
+A bad cross reference---entry "DBLP:conf/aaaiss/BaralAD06"
+refers to entry "DBLP:conf/aaaiss/2006-5", which doesn't exist
+A bad cross reference---entry "DBLP:conf/birthday/FaberW11"
+refers to entry "DBLP:conf/birthday/2011gelfond", which doesn't exist
+A bad cross reference---entry "DBLP:conf/birthday/BaralG11"
+refers to entry "DBLP:conf/birthday/2011gelfond", which doesn't exist
+A bad cross reference---entry "DBLP:conf/lpnmr/NicolasD01"
+refers to entry "DBLP:conf/lpnmr/2001", which doesn't exist
+A bad cross reference---entry "DBLP:conf/aaai/NakamuraBB00"
+refers to entry "DBLP:conf/aaai/2000", which doesn't exist
+A bad cross reference---entry "DBLP:conf/ijcai/HatanoH11"
+refers to entry "DBLP:conf/ijcai/2011", which doesn't exist
+You've used 19 entries,
+            2118 wiz_defined-function locations,
+            629 strings with 7463 characters,
+and the built_in function-call counts, 7716 in all, are:
+= -- 745
+> -- 304
+< -- 13
++ -- 120
+- -- 100
+* -- 482
+:= -- 1159
+add.period$ -- 57
+call.type$ -- 19
+change.case$ -- 106
+chr.to.int$ -- 0
+cite$ -- 19
+duplicate$ -- 351
+empty$ -- 663
+format.name$ -- 100
+if$ -- 1754
+int.to.chr$ -- 0
+int.to.str$ -- 19
+missing$ -- 18
+newline$ -- 98
+num.names$ -- 38
+pop$ -- 135
+preamble$ -- 1
+purify$ -- 88
+quote$ -- 0
+skip$ -- 289
+stack$ -- 0
+substring$ -- 511
+swap$ -- 137
+text.length$ -- 13
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 76
+warning$ -- 0
+while$ -- 69
+width$ -- 21
+write$ -- 211
+(There were 13 error messages)

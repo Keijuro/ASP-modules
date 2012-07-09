@@ -1,0 +1,110 @@
+\begin{thebibliography}{10}
+
+\bibitem{DBLP:conf/aaaiss/BaralAD06}
+C.~Baral, S.~Anwar, and J.~Dzifcak.
+\newblock Macros, macro calls and use of ensembles in modular answer set
+  programming.
+\newblock In {\em AAAI Spring Symposium: Formalizing and Compiling Background
+  Knowledge and Its Applications to Knowledge Representation and Question
+  Answering}, pages 1--9, 2006.
+
+\bibitem{DBLP:conf/birthday/BaralG11}
+C.~Baral and G.~Gelfond.
+\newblock On representing actions in multi-agent domains.
+\newblock In {\em Logic Programming, Knowledge Representation, and Nonmonotonic
+  Reasoning}, pages 213--232, 2011.
+
+\bibitem{DBLP:conf/atal/BaralGSP10}
+C.~Baral, G.~Gelfond, T.~C. Son, and E.~Pontelli.
+\newblock Using answer set programming to model multi-agent scenarios involving
+  agents' knowledge about other's knowledge.
+\newblock In {\em AAMAS}, pages 259--266, 2010.
+
+\bibitem{PhDThesis/Bourgne}
+G.~Bourgne.
+\newblock {\em Hypotheses refinement and propagation with communication
+  constraints}.
+\newblock PhD thesis, University Paris IX Dauphine, 2008.
+
+\bibitem{DBLP:conf/ecai/BourgneIM10}
+G.~Bourgne, K.~Inoue, and N.~Maudet.
+\newblock Abduction of distributed theories through local interactions.
+\newblock In {\em ECAI}, pages 901--906, 2010.
+
+\bibitem{DBLP:conf/lads/BourgneIM10}
+G.~Bourgne, K.~Inoue, and N.~Maudet.
+\newblock Towards efficient multi-agent abduction protocols.
+\newblock In {\em LADS}, pages 19--38, 2010.
+
+\bibitem{DBLP:conf/lpnmr/Costantini09}
+S.~Costantini.
+\newblock Integrating answer set modules into agent programs.
+\newblock In {\em LPNMR}, pages 613--615, 2009.
+
+\bibitem{DBLP:conf/datalog/Costantini10}
+S.~Costantini.
+\newblock Answer set modules for logical agents.
+\newblock In {\em Datalog}, pages 37--58, 2010.
+
+\bibitem{DBLP:conf/birthday/FaberW11}
+W.~Faber and S.~Woltran.
+\newblock Manifold answer-set programs and their applications.
+\newblock In {\em Logic Programming, Knowledge Representation, and Nonmonotonic
+  Reasoning}, pages 44--63, 2011.
+
+\bibitem{DBLP:journals/ci/FisherBHT07}
+M.~Fisher, R.~H. Bordini, B.~Hirsch, and P.~Torroni.
+\newblock Computational logics and agents: A road map of current technologies
+  and future trends.
+\newblock {\em Computational Intelligence}, 23(1):61--91, 2007.
+
+\bibitem{DBLP:journals/aicom/GebserKKOSS11}
+M.~Gebser, B.~Kaufmann, R.~Kaminski, M.~Ostrowski, T.~Schaub, and M.~T.
+  Schneider.
+\newblock Potassco: The potsdam answer set solving collection.
+\newblock {\em AI Commun.}, 24(2):107--124, 2011.
+
+\bibitem{DBLP:conf/ijcai/HatanoH11}
+D.~Hatano and K.~Hirayama.
+\newblock Dynamic sat with decision change costs: Formalization and solutions.
+\newblock In {\em IJCAI}, pages 560--565, 2011.
+
+\bibitem{DBLP:journals/amai/KowalskiS99}
+R.~A. Kowalski and F.~Sadri.
+\newblock From logic programming towards multi-agent systems.
+\newblock {\em Ann. Math. Artif. Intell.}, 25(3-4):391--419, 1999.
+
+\bibitem{DBLP:journals/amai/KowalskiS11}
+R.~A. Kowalski and F.~Sadri.
+\newblock Abductive logic programming agents with destructive databases.
+\newblock {\em Ann. Math. Artif. Intell.}, 62(1-2):129--158, 2011.
+
+\bibitem{DBLP:conf/aaai/NakamuraBB00}
+M.~Nakamura, C.~Baral, and M.~Bj{\"a}reland.
+\newblock Maintainability: A weaker stabilizability like notion for high level
+  control.
+\newblock In {\em AAAI/IAAI}, pages 62--67, 2000.
+
+\bibitem{DBLP:conf/lpnmr/NicolasD01}
+P.~Nicolas and B.~Duval.
+\newblock Representation of incomplete knowledge by induction of default
+  theories.
+\newblock In {\em LPNMR}, pages 160--172, 2001.
+
+\bibitem{DBLP:conf/clima/NieuwenborghVHV06}
+D.~V. Nieuwenborgh, M.~D. Vos, S.~Heymans, and D.~Vermeir.
+\newblock Hierarchical decision making in multi-agent systems using answer set
+  programming.
+\newblock In {\em CLIMA}, pages 20--40, 2006.
+
+\bibitem{DBLP:conf/ijcai/SakamaSP11}
+C.~Sakama, T.~C. Son, and E.~Pontelli.
+\newblock A logical formulation for negotiation among dishonest agents.
+\newblock In {\em IJCAI}, pages 1069--1074, 2011.
+
+\bibitem{DBLP:journals/japll/TranB09}
+N.~Tran and C.~Baral.
+\newblock Hypothesizing about signaling networks.
+\newblock {\em J. Applied Logic}, 7(3):253--274, 2009.
+
+\end{thebibliography}
