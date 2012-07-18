@@ -42,6 +42,12 @@
 
 \documentclass{aamas2012}
 
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{algorithm,algorithmic}
+
+\graphicspath{{pictures/}}
+
 % if you are using PDF LaTex and you cannot find a way for producing
 % letter, the following explicit settings may help
  
@@ -229,8 +235,34 @@ Gauvain Bourgne\\
 	To reach this goal they have to catch and eat rabbits.
 	A wolf can be in two situations: a prey is in sight or not.
 	If there is no rabbit in the sight range of a wolf, the predator have to explore his environment to find one.
-	When a prey is spotted a wolf will try to perform a sneaky approach if he is not spotted himself, otherwise our predator will rush on his target.
+	When a prey is spotted, a wolf will try to perform a sneaky approach if he is not spotted himself, otherwise the predator will rush on his target.
 	To resume, a wolf have three behaviours: exploration, approach and attack.
+	
+	Rabbits have two goals : feed and survive.
+	On a first hand, a rabbit have to eat flowers and on an other hand it have to escape from wolf.
+	Like a wolf, if no prey is in sight a rabbit need to explore its environment.
+	But by doing this, a rabbit can find preys or predators.
+	The exploration behaviour of a rabbit is more complex than the one of a wolf.
+	For example: when a rabbit move it will choose the position with the best sight range for easily spotted its predators.
+	When a wolf is spotted, survive is more important than feed then a rabbit have to hide or run away.
+	To resume, a rabbit have three behaviours: exploration, hide, run away.
+	
+	Flowers are passive agents: the environment have no effect on their behaviour.
+	The only goal of a flower is to reproduce.
+	A flower produce regularly a new one after a certain amount of time.
+	Knowledge of a flower does not change regarding time.
+	A flower is an independent agent, it does not care about others agents.
+
+	\begin{figure}
+		\centering
+		\includegraphics[keepaspectratio=true,scale=3.0]{food_chain.pdf}
+		\caption
+		{
+			\label{food_chain}
+			A MAS in a dynamic environment where an agent is a wolf, a rabbit or a flower:
+			Wolfs eat rabbits and rabbits eat flowers.
+		}
+	\end{figure}
 
 \section{ASP modules}
 
@@ -249,6 +281,20 @@ Gauvain Bourgne\\
 		The purpose of these modules is to organise knowledge representation and produce
 		new knowledge by combine it with others modules.
 	\end{definition}
+	
+	\begin{example}
+		Two example of rules module.\newline
+		A rules module of a rabbit about food chain:\newline
+		\newline
+		predator(wolf).\newline
+		fellow(rabbit).\newline
+		prey(flower).\newline
+		\newline
+		A rules module about path:\newline
+		\newline
+		path(X,Y) :- edge(X,Y).\newline
+		path(X,Y) :- path(X,Z), edge(Z,Y).
+	\end{example}
 
 \subsection{Observations}
 
@@ -258,8 +304,55 @@ Gauvain Bourgne\\
 		An agent use it like a specific memory database.
 		The purpose of these modules is to organise observations to facilitate their use and update.
 	\end{definition}
+	
+	\begin{example}
+		Two example of observations module.
+		\newline
+		An observations module of a rabbit about wolfs positions :\newline
+		\newline
+		position(wolf,0,3).\newline
+		position(wolf,2,5).\newline
+		position(wolf,2,6).\newline
+		\newline
+		An observations module of a rabbit about himself : \newline
+		\newline
+		me("Bugs Bunny").\newline
+		position("Bugs Bunny",0,0).\newline
+		type("Bugs Bunny",rabbit).\newline
+	\end{example}
+	
+\subsection{Combinations}
 
-\subsection{Meta-knowledge}
+	With this two kind of modules we can represent the background theory and observations of an agent.
+	The idea now is that we can combine our modules to produce different kind of knowledge.
+	The figure \ref{module_combination} represent the knowledge of a wolf by a set of observations modules and rules modules.
+	In this example, by combining modules \textit{Myself}, \textit{Field}, \textit{Movement} and \textit{Path} 
+	a wolf will produce all its possibility of movement.
+	The combination \{\textit{Rabbit}, \textit{Field}, \textit{Movement}, \textit{Path}\} will produce all possible movements that rabbits in sight can perform. 
+	By combining \{\textit{Myself}, \textit{Field}, \textit{Rabbit}, \textit{Movement}, \textit{Path}, \textit{Food Chain}, \textit{Eat}\} a wolf will produce
+	all movements which allow to eat a rabbit.
+	
+	We can see here a first advantage of knowledge modularity: a module can be used for multiple purpose.
+	If we take the example of modules \textit{Movement} and \textit{Path}, an agent can use it to reason about its movement possibilities and predict other agent movements.
+
+	\begin{figure}
+		\centering
+		\includegraphics[keepaspectratio=true, scale=0.25]{module_combination.pdf}
+		\caption
+		{
+			\label{module_combination}
+			Knowledge base of a wolf, observations modules are blue ones and rules modules are green.
+			The module combination \{\textit{Myself}, \textit{Field}, \textit{Movement}, \textit{Path}\} will produce all possible movement of the agent.
+		}
+	\end{figure}
+
+\subsection{Behaviours}
+
+	In the last section we presented different way to combine rules and observations modules.
+	But these combinations are also a kind of knowledge and then can be known by the agent.
+	Its a kind of meta-knowledge on our knowledge, more precisely in this case it is knowledge about the use of knowledge.
+	This meta-knowledge is a part of the background theory of an agent and could be represented by rules modules.
+	But the singularity of this knowledge involve to dedicated a new kind of modules to represent it.
 
 	\begin{definition}[Meta-knowledge module]
 		A meta-knowledge module is a set of rules which define the conditions to use an ASP module.
@@ -267,13 +360,181 @@ Gauvain Bourgne\\
 		It contains knowledge on modules combination.	
 		The purpose of these modules is to guide reasoning and represent dynamic behaviours.
 	\end{definition}
+	
+	A module combination can represent agent behaviour and by using meta-knowledge modules we can represent it in a elegant way.
+	Most simple behaviour can be represented by a simple list of modules to combine, like in example \ref{approach_example} and figure \ref{approach_figure}.
+	The module combination \{\textit{Myself}, \textit{Field}, \textit{Rabbit}, \textit{Movement}, \textit{Path}, \textit{Food Chain}, \textit{Eat}\} 
+	and \{\textit{Myself}, \textit{Field}, \textit{Wolf}, \textit{Rabbit}, \textit{Movement}, \textit{Path}, \textit{Food Chain}, \textit{View}\} 
+	can respectively represent the attack and the approach behaviour of a wolf.
+	This two combinations of modules can be known by meta-knowledge modules, in this case theses modules have knowledge on rules and observations modules.
+	
+	\begin{example}
+		\label{approach_example}
+		A meta-knowledge module which describe the approach behaviour of wolf:\newline
+		\newline
+		\textcolor{red}{use\_module}("Myself").\newline
+		\textcolor{red}{use\_module}("Wolf").\newline
+		\textcolor{red}{use\_module}("Rabbit").\newline
+		\textcolor{red}{use\_module}("Field").\newline
+		\textcolor{red}{use\_module}("Food chain").\newline
+		\textcolor{red}{use\_module}("Path").\newline
+		\textcolor{red}{use\_module}("Movement").\newline
+		\textcolor{red}{use\_module}("View").
+	\end{example}
+	
+	\begin{figure}
+		\centering
+		\includegraphics[keepaspectratio=true, scale=0.3]{approach_behaviour.pdf}
+		\caption
+		{
+			\label{approach_figure}
+			A meta-knowledge module about approach behaviour, with arrows on modules it knowns.
+			Here, \textit{Approach} define the module combination to use to approach a rabbit without being spotted.
+		}
+	\end{figure}
+	
+	\begin{example}
+		\label{approach_example}
+		A meta-knowledge module which describe the attack behaviour of wolf:\newline
+		\newline
+		\textcolor{red}{use\_module}("Myself").\newline
+		\textcolor{red}{use\_module}("Rabbit").\newline
+		\textcolor{red}{use\_module}("Field").\newline
+		\textcolor{red}{use\_module}("Food chain").\newline
+		\textcolor{red}{use\_module}("Path").\newline
+		\textcolor{red}{use\_module}("Movement").\newline
+		\textcolor{red}{use\_module}("Eat").
+	\end{example}
+	
+	\begin{figure}
+		\centering
+		\includegraphics[keepaspectratio=true, scale=0.3]{attack_behaviour.pdf}
+		\caption
+		{
+			\label{approach_figure}
+			A meta-knowledge module about attack behaviour.
+			Contrary to figure \ref{approach_figure} module \textit{Eat} is use but not \textit{View} and \textit{Wolf}.
+			Here, \textit{Attack} define the module combination to use to quickly catch a rabbit.
+		}
+	\end{figure}
+	
+	To represent more complex behaviour we can have meta-knowledge modules which have knowledge on other meta-knowledge modules.
+	For example we can represent the hunting behaviour of a wolf with such module, like in example \ref{hunting_example} and figure \ref{hunting_figure}.
+	If a wolf is spotted it will use the \textit{Attack} module otherwise it will use the \textit{Approach} module.
+	Regarding the situation the hunting behaviour will be a sneaky approach or an attack rush.
+	Such meta-knowledge modules allows to represent dynamic behaviours which are dependent of the evolution of the environment.
+	
+	\begin{example}
+		\label{hunting_example}
+		A meta-knowledge module which describe the hunting behaviour of wolf:\newline
+		\newline
+		\textcolor{red}{use\_module}("Attack") :- spotted.\newline
+		\textcolor{red}{use\_module}("Approach") :- not spotted.\newline
+	\end{example}
+	
+	\begin{figure}
+		\centering
+		\includegraphics[keepaspectratio=true, scale=0.25]{hunting_behaviour.pdf}
+		\caption
+		{
+			\label{hunting_figure}
+			A meta-knowledge module with knowledge about meta-knowledge module.
+			Here, regarding the situation the hunting behaviour correspond to a sneaky approach or an attack rush.
+		}
+	\end{figure}
+	
+\subsection{Organisation}
+
+	With theses three kind of ASP modules we can now represent agent knowledge and reasoning.
+	The figure \ref{organisation_figure} represent the knowledge of a wolf by a graph of modules.
+	A node is an ASP module, an edge represent knowledge about modules.
+	In this figure, the behaviour of wolf is divide into exploration and hunting.
+	The Hunting behaviour is itself divide into approach and attack behaviour.
+	We can see here that meta-knowledge modules allows to represent agent behaviours in an elegant and intuitive way.
+
+	\begin{figure}
+		\centering
+		\includegraphics[keepaspectratio=true, scale=0.4]{knowledge_organisation.pdf}
+		\caption
+		{
+			\label{organisation_figure}
+			Representation of the knowledge of a wolf by a graph of ASP modules.
+		}
+	\end{figure}
+	
+\section{Reasoning}
+
+	In the last section we showed how to represent agent knowledge and behaviours with ASP modules.
+	Our design is also dedicated to guide agent reasoning step by step.
+	To allow an agent to use our method for reasoning in dynamic environment we implemented a framework.
+	Algorithm \ref{framework_algorithm} represent a simplified version of this tool.
+	
+	Input is a set of modules and output is a set of actions which an agent can perform on its environment.
+	It start by compute the combination of input modules and retrieve only one of its answer sets by using the solver \textit{clingo}.
+	This answer set is selected randomly from all answer set of the module combination.
+	From this answer set we retrieve different commands by extracting keywords.
+	By parsing these keyword we extract the combination of modules to use in the next reasoning step and a set of action to perform.
+	When the answer set is totally parsed, the cycle restart with the new combination of modules.
+	Finally, when there is no more module to combine it return the set of actions to perform.
+
+	Let's take again the example of the figure \ref{organisation_figure} and let's suppose that the wolf just receive a set of new observation from its sensors.
+	First our agent will combine theses new observations with the module \textit{Behaviour} to decide if it have to explore the environment or hunt a prey.
+	Let's suppose that new observations contains the position of a rabbit, then the next combination of module to use is \{\textit{Hunting}\}.
+	Nothing say that the wolf is spotted so the next combination of module to use is \{\textit{Approach}\}.
+	Finally the module \textit{Approach} will specify that the last combination of module to use is 
+	\{\textit{Myself}, \textit{Field}, \textit{Wolf}, \textit{Rabbit}, \textit{Movement}, \textit{Path}, \textit{Food Chain}, \textit{View}\}.
+	The wolf will then perform a movement which allow him to approach the rabbit without being spotted.
+	
+	In this example we can see that only a part of the knowledge is use for reasoning: 
+	modules \textit{Explore}, \textit{Attack}, \textit{Flower} and \textit{Eat} are not used.
+	The same knowledge can be represented in only one ASP program, but in this case all knowledge is use.
+	Regarding this monolithic representation our method allows to reduce reasoning search space.
+
+	\begin{algorithm}
+	\caption{Reasoning}
+	\label{framework_algorithm}
+	\begin{algorithmic}[1]
+	\STATE INPUT : M a set of ASP modules
+	\STATE OUTPUT : A a set of actions
+	\newline
+	\STATE A a set of actions
+	\STATE AS an answer set
+	\newline
+	\STATE A $\leftarrow \emptyset$
+	\STATE AS $\leftarrow \emptyset$
+	\newline
+	\REPEAT
+		\STATE // Select \textbf{one} answer set of M
+		\STATE AS $\leftarrow$ clingo(M)
+		\STATE M $\leftarrow \emptyset$ 
+		\newline
+		\STATE // Extract framework commands
+		\FOR {every literal L of AS}
+			\IF {L == "use\_module(Module)"}
+				\STATE M $\leftarrow$ M $\cup$ Module
+			\ENDIF
+			\IF {L == "action(Action)"}
+				\STATE A $\leftarrow$ A $\cup$ Action
+			\ENDIF
+		\ENDFOR
+	\UNTIL {M == $\emptyset$} // No more modules to combine
+	\newline
+	\RETURN A
+	\end{algorithmic}
+	\end{algorithm}
 
 \section{Experiments}
 
 \section{Conclusions}
 
+	We provide a method based on ASP modules to design agent knowledge.
+	This representation allows to intuitively implements dynamic behaviours.
+	We also provide a framework which allows agent reasoning via ASP modules.
+	Regarding monolithic ASP program, a first improvement of our method is the reduction of reasoning search space.
+	Its also cause reduction of code size because modules are reusable for multiple purposes.
 	
-
+	In this paper we use ASP but this method can be easily adapted for other programming language, logic or not.
+	
 %
 % The following two commands are all you need in the
 % initial runs of your .tex file to
