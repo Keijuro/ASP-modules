@@ -221,14 +221,26 @@ Gauvain Bourgne\\
 
 \section{Introduction}
 
-\section{Multi-agents system}
+	In Multi-agents systems, reasoning in dynamic environment imply to deal with some interesting problem.
+	In such environment an agent have to adapt to the evolution of the world to achieve his goals.
+	His knowledge have to be update consequently to world changes by adding new observations or revise old ones.
+	The behaviour of an agent need to be suitable to the current situation and able to evolve with it.
+	Design such kind of reasoning is an interesting challenge, its why in this work focus on the simplification of this task.
+	
+	Answer set programming which is a specification and an implementation language is very suitable to represent agent knowledge and reasoning.
+	The methods we introduce in this work is base on ASP modules and their combinations.
+	ASP modules allows to represent agent behaviours in an intuitive and elegant way.
+	We divide agent knowledge into different modules and use different modules combinations for reasoning.
+	Our agent do meta-reasoning: they use knowledge on modules combinations to adapt their reasoning and so on their behaviour to the situation.
+
+\section{Multi-agents systems}
 
 	\begin{definition}[Agent]
 		\label{agent_definition}
 		An agent is an entity which is able to reason and communicate with his fellows.
 		The knowledge of an agent can be divide in two part:\newline
 		\begin{itemize}
-			\item $K$ a set of non revisable knowledge composed of :
+			\item $K$ a set of not revisable knowledge composed of :
 			\begin{itemize}
 				\item $T$ the common theory
 				\item $O$ a set of observations
@@ -589,6 +601,10 @@ Gauvain Bourgne\\
 	modules \emph{Explore}, \emph{Attack}, \emph{Flower} and \emph{Eat} are not used.
 	The same knowledge can be represented in only one ASP program, but in this case all knowledge is use.
 	Regarding this monolithic representation our method allows to reduce reasoning search space.
+	
+	Reasoning always finish when an agent use a module graph which is acyclic like in figure \ref{organisation_figure}.
+	To represent behaviours its quite intuitive to make a tree of meta-knowledge modules.
+	Where the root is the most abstract behaviour and more specific one are deeper.
 
 	\begin{algorithm}
 	\caption{Reasoning}
@@ -625,9 +641,12 @@ Gauvain Bourgne\\
 
 \section{Experiments}
 
+	
+	
+
 \section{Conclusions}
 
-	We provide a method based on ASP modules to design agent knowledge.
+	We provide a method based on ASP modules to design agent knowledge and reasoning.
 	This representation allows to intuitively implements dynamic behaviours.
 	We also provide a framework which allows agent reasoning via ASP modules.
 	Regarding monolithic ASP program, a first improvement of our method is the reduction of reasoning search space.
