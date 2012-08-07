@@ -193,13 +193,13 @@ Gauvain Bourgne\\
 \maketitle
 
 \begin{abstract}
-	In this work, we focus on multi-agent systems in dynamic environment.
-	Our interest is about individual agent reasoning in such environment.
-	For reasoning in dynamic environment, an agent needs to be able to manage his knowledge in a non-monotonic way.
-	To reach his goals in a changing environment, an agent needs to adapt his behaviours regarding the current state of the world.
+	In this work, our interest is about multi-agent systems in dynamic environment.
+	Here, we focus on representation of agent knowledge and reasoning.
+	For reasoning in such environment, an agent needs to be able to manage his knowledge in a non-monotonic way.
+	To reach his goals in a changing context, an agent needs to adapt his believes and behaviour regarding the current state of the world.
 	Our objective is to define a method which makes easier to design agent knowledge and reasoning in such environment.
-	We use the expressibility of answer set programming to represent agent knowledge.
-	To design agent reasoning, we propose a method based on ASP modules combination and meta-knowledge.
+	For this purpose, we use the expressibility of answer set programming to propose a method based on ASP modules combinations.
+	By using meta-knowledge on these combinations we represent dynamic behaviours and meta-reasoning.
 	We also propose a framework to implement and use this method in multi-agent systems.
 \end{abstract}
 
@@ -256,11 +256,11 @@ Gauvain Bourgne\\
 	Its also simplify communications between agents: an agent does not have to justify his choice to his subordinate.
 	
 	Our interest is about representing agent reasoning in dynamic environment.
-	In Multi-agents systems, reasoning in dynamic environment implies to deal with some interesting problem.
-	In such environment an agent has to adapt to the evolution of the world to achieve his goals.
+	In Multi-agents systems, reasoning in dynamic environment implies to deal with some interesting problems.
+	In such environment, an agent has to adapt to the evolution of the world to achieve his goals.
 	His knowledge have to be updated regarding world changes by adding new observations or revising old ones.
 	The behaviour of an agent needs to be suitable to the current situation and able to evolve with it.
-	Designing such kind of reasoning is an interesting challenge, it is why this work focus on the simplification of this task.
+	Designing such kind of reasoning is an interesting challenge which is the purpose of this work.
 	
 	To make our work more understandable we will follow an intuitive example along our propositions: a survival game which represent a MAS in a dynamic environment.
 	In this game there are three groups of agents: wolfs, rabbits and flowers.
@@ -274,14 +274,15 @@ Gauvain Bourgne\\
 	When a prey is spotted, a wolf will try to perform a sneaky approach if he is not spotted himself, otherwise the predator will rush on his target.
 	To resume, a wolf have three behaviours: exploration, approach and attack.
 	
-	Rabbits have two goals : feed and survive.
+	Rabbits have two goals : feed and not be eat.
 	On a first hand, a rabbit have to eat flowers and on an other hand it have to escape from wolf.
 	Like a wolf, if no prey is in sight a rabbit need to explore its environment.
 	But by doing this, a rabbit can find preys or predators.
 	The exploration behaviour of a rabbit is more complex than the one of a wolf.
 	For example: when a rabbit move it can choose the position with the best sight range for easily spotted its predators.
 	When a wolf is spotted, survive is more important than feed then a rabbit have to hide or run away.
-	To resume, a rabbit have three behaviours: exploration, hide, run away.
+	To resume, a rabbit have four behaviours: exploration, feed, hide and run away.
+	In this paper our examples will focus on rabbit agent for knowledge representation and reasoning.
 	
 	Flowers are passive agents: the environment have no effect on their behaviour.
 	The only goal of a flower is to reproduce.
@@ -502,6 +503,10 @@ Gauvain Bourgne\\
 	If a rabbit spotted a wolf it will use the \emph{Run away} module otherwise it will use the \emph{Feed} module.
 	Regarding the situation the survive behaviour will be run way or approach flower.
 	Meta-knowledge modules allows to represent such dynamic behaviours which are dependent of the evolution of the environment.
+	Figure \ref{behaviour_tree} represent rabbit behaviour by a meta-knowledge module tree.
+	The behaviour of a rabbit is survive, regarding the situation a rabbit is hunted by a wolf or not.
+	When hunted, a rabbit have to run away or try to hide by go out of view range of his predator.
+	If there is no predator he will explore his environment to find flower and when one is spotted go to eat it.
 	
 	\begin{example}
 		\label{survive_example}
@@ -509,7 +514,7 @@ Gauvain Bourgne\\
 		\newline
 		predator $\leftarrow$ position(wolf,Position).\newline
 		\textbf{use\_module}("Run away") $\leftarrow$ predator.\newline
-		\textbf{use\_module}("Feed") $\leftarrow$ not predator.\newline
+		\textbf{use\_module}("Feed") $\leftarrow$ prey, not predator.\newline
 	\end{example}
 	
 	\begin{figure}
@@ -519,6 +524,16 @@ Gauvain Bourgne\\
 		{
 			\label{survive_figure}
 			A meta-knowledge module with knowledge about meta-knowledge module.
+		}
+	\end{figure}
+	
+	\begin{figure}
+		\centering
+		\includegraphics[keepaspectratio=true, scale=0.5]{behaviour_tree.pdf}
+		\caption
+		{
+			\label{behaviour_tree}
+			Representation of rabbit behaviour by a tree of meta-knowledge module.
 		}
 	\end{figure}
 	
@@ -535,24 +550,32 @@ Gauvain Bourgne\\
 	Now at T+1 the wolf see position P but no rabbit are at P, then the wolf have to remove the fact \textit{position(rabbit,P)} from module \textit{Rabbit}.
 	During acquisition phase, agent memory is update to make it consistent with new observations.
 	
-	After acquire observations, an agent will reason on what he can do regarding the current state of the world: it's deduction phase.
-	The purpose of this reasoning phase is to produce actions which are possible to perform now.
-	It is during this phase that meta-knowledge modules show their utility.
-	We define a agent reasoning architecture based on ASP modules where meta-knowledge modules are use to make decision.
-	As show in figure \ref{modular_knowledge}, each meta-knowledge module is a decision node whose guide agent reasoning.
-	These modules use agent observations to define his behaviour step by step and finally reach the final module combination.
-	This last combination produce actions which are possible to perform.
-	By using multiple reasoning step an agent does not use all his knowledge, it reduce reasoning search space.
+	After acquire observations, an agent will reason on what he can do regarding the current state of the world: it is the deduction phase.
+	The purpose of this reasoning phase is to deduce what actions are possible to perform.
+	Here we use an agent reasoning architecture based on ASP modules where meta-knowledge modules are use for meta-reasoning.
+	Meta-knowledge modules use agent observations to define his behaviour step by step.
+	Knowledge produce by module combination is keep in next reasoning steps, 
+	it means that answer set of the last reasoning step contains all deduction of previous ones.
+	These last answer set contains action and their consequences on the environment and the agent.
 	
-	Deduction phase produce a set of answer set which represent actions and their consequences.
-	Now the agent have to choose an answer set, a world which allows him to approach or reach his goals.
-	Actions are retrieved from the selected answer set and then perform.
-	The cycle continue by the acquisition of the consequence of theses actions.
-
-	With these three kind of ASP modules we can now represent agent knowledge and reasoning.
-	The figure \ref{modular_knowledge} represent a simplified version of the knowledge of a rabbit by a graph of modules.
-	A node is an ASP module, undirected edge represent the use of a module and directed edge represent reasoning decisions.
-	In this figure, the behaviour of rabbit is \textit{survive}, this behaviour is divide into \textit{run away} and \textit{feed} behaviour.
+	The figure \ref{modular_knowledge} represent rabbit knowledge by an ASP modules graph where a node is an ASP module, 
+	undirected edge represent the use of a module and directed edge represent reasoning decisions.
+	Here meta-knowledge module \textit{Movement} is used to represent a module combination which produce movement actions of a rabbit,
+	other ones represent his behaviour like in figure \ref{behaviour_tree}.
+	The reasoning phase will start by using \textit{Behaviour} module which just specify to use \textit{Survive} one.
+	By combining \textit{Survive} module and wolf observation the rabbit will decide if he is hunted or have to hunt.
+	If he is hunted he will then combine \textit{Hunted} with wolf observations to decide if run away or hide is the best solution,
+	for example if the wolf is very near it is very risky to hide then run away will be choose.
+	If there is no wolf the rabbit will use \textit{Hunting} with flower observation, if there is no flower he will use \textit{Explore} module
+	and \textit{View} to try to find something to eat (\textit{View} module should contains some knowledge about view range).
+	If there is flower in his observations, a rabbit will use \textit{Feed} to produce actions will allows him to approach and eat flowers.
+	
+	Now the agent have to choose which actions to perform, it means choose an answer set which allows him to approach or reach his goals.
+	To make this choice we can use constraint or use some modules to compute score to rank answer set.
+	For example module \textit{Eat} can compute the number of action a predator have to perform to eat a prey.
+	Then this module can be use by a rabbit to rank movement action to go far away from a wolf or to approach and eat a flower.
+	After choosing the best answer set, corresponding actions are performed and 
+	the cycle continue by the acquisition of the real effect of theses actions on the environment.
 
 	\begin{figure}
 		\centering
@@ -579,64 +602,61 @@ Gauvain Bourgne\\
 	To allow an agent to use our method for reasoning in dynamic environment we implemented this framework.
 	Algorithm \ref{framework_algorithm} represent a simplified version of this tool.
 	
-	Input is a set of modules and output is a set of actions which an agent can perform on its environment.
-	It start by compute the combination of input modules and retrieve only one of its answer sets by using the solver \emph{clingo}.
-	This answer set is selected randomly from all answer set of the module combination.
-	From this answer set we retrieve different commands by extracting keywords.
-	By parsing these keyword we extract the combination of modules to use in the next reasoning step and a set of action to perform.
-	When the answer set is totally parsed, the cycle restart with the new combination of modules.
-	Finally, when there is no more module to combine it return the set of actions to perform.
+	Input is a set of modules and output is a set of answer set which contains actions that an agent can perform on its environment.
+	It start by computing the combination of input modules and retrieve its answer sets by using the solver \emph{clingo}.
+	Answer set are exploit in a deep first exploration by extracting keyword which define the combination of modules to use in the next reasoning step.
+	When the answer set is totally parsed, we convert the current answer set into an ASP module and add it to the next combination of modules.
+	Then, this combination is use for the next reasoning step and cycle continue.
+	Finally, when there is no more module to combine it return a set of answer set.
 
-	Let's take again the example of the figure \ref{organisation_figure} and let's suppose that the wolf just receive a set of new observation from its sensors.
-	First our agent will combine theses new observations with the module \emph{Behaviour} to decide if it have to explore the environment or hunt a prey.
-	Let's suppose that new observations contains the position of a rabbit, then the next combination of module to use is \{\emph{Hunting}\}.
-	Nothing say that the wolf is spotted so the next combination of module to use is \{\emph{Approach}\}.
-	Finally the module \emph{Approach} will specify that the last combination of module to use is 
-	\{\emph{Myself}, \emph{Field}, \emph{Wolf}, \emph{Rabbit}, \emph{Movement}, \emph{Path}, \emph{Food Chain}, \emph{View}\}.
-	The wolf will then perform a movement which allow him to approach the rabbit without being spotted.
+	Let's take again the example of the figure \ref{modular_knowledge} and let's suppose that the rabbit just receive a set of new observation from its sensors.
+	First our agent will combine theses new observations with the module \emph{Behaviour} to decide if he is hunted or have to hunt.
+	Let's suppose that observations contains a wolf position, then the next combination of module to use is \{\emph{Hunted}\}.
+	The wolf is too near to try to hide, so the next combination of module to use is \{\emph{Run away}\} which just specify to use \{\emph{Movement}\}.
+	Finally this module will specify that the last combination of module to use is \{\emph{Myself}, \emph{Field}, \emph{Action}, \emph{Move}, \emph{Eat}\}.
+	Then the algorithm will return all answer set of this combination, each answer will contain an movement action and its consequences, 
+	for example the number of movement the wolf have to perform to catch the rabbit.
 	
 	In this example we can see that only a part of the knowledge is use for reasoning: 
-	modules \emph{Explore}, \emph{Attack}, \emph{Flower} and \emph{Eat} are not used.
+	meta-knowledge modules \emph{Hide}, \emph{Hunting}, \emph{Explore} and \emph{Feed} are not used.
+	Observations about flowers and knowledge about view are not used.
 	The same knowledge can be represented in only one ASP program, but in this case all knowledge is use.
 	Regarding this monolithic representation our method allows to reduce reasoning search space.
 	
-	Reasoning always finish when an agent use a module graph which is acyclic like in figure \ref{organisation_figure}.
-	To represent behaviours its quite intuitive to make a tree of meta-knowledge modules.
-	Where the root is the most abstract behaviour and more specific one are deeper.
+	Reasoning always finish when an agent use a module graph which is acyclic like in figure \ref{modular_knowledge}.
+	To represent behaviours it is quite intuitive to make a tree of meta-knowledge modules, 
+	where the root is the most abstract behaviour and deeper one are more specific.
 
 	\begin{algorithm}
 	\caption{Combine}
 	\label{framework_algorithm}
 	\begin{algorithmic}[1]
-	\STATE INPUT : M a set of ASP modules
-	\STATE OUTPUT : A a set of actions
+	\STATE INPUT : <M> M a set of ASP modules
+	\STATE OUTPUT : AS a set of answer set
 	\newline
-	\STATE M a set of modules
-	\STATE A a set of actions
 	\STATE AS a set of answer set
 	\newline
-	\STATE A $\leftarrow \emptyset$
-	\newline
 	\STATE AS $\leftarrow$ \textit{clingo}(M)
+	\newline
 	\FOR {each answer set S of AS}
 		\STATE M $\leftarrow \emptyset$ 
 		\newline
 		\STATE // Extract keywords
 		\FOR {every literal L of S}
-			\IF {L == "use\_module(Module)"}
+			\IF {L = "use\_module(Module)"}
 				\STATE M $\leftarrow$ M $\cup$ Module
-			\ENDIF
-			\IF {L == "action(Action)"}
-				\STATE A $\leftarrow$ A $\cup$ Action
+				\STATE S $\leftarrow$ S $/$ L
 			\ENDIF
 		\ENDFOR
 		\newline
-		\IF {M != $\emptyset$}
+		\IF {M $\neq$ $\emptyset$}
+			\STATE // Add S to M as a module
+			\STATE M $\leftarrow$ M $\cup$ module(S)
 			\STATE combine(M)
 		\ENDIF
 	\ENDFOR
 	\newline
-	\RETURN A
+	\RETURN AS
 	\end{algorithmic}
 	\end{algorithm}
 
@@ -650,14 +670,13 @@ Gauvain Bourgne\\
 	These experimental results focus on the reasoning time of a rabbit regarding a specific scenario.
 	Here we compare modular and monolithic reasoning time: the first one needs multiple step to reach the module combination
 	which correspond to the situation and the second one use directly the entire knowledge base.
-	The figure \ref{modular_knowledge} represent the modular knowledge of the rabbit in these experiments.
-	This agent have two behaviours: \textit{run away} and \textit{feed}.
+	The figure \ref{modular_knowledge_experiment} represent the modular knowledge of the rabbit in these experiments.
+	It is a simplified version where rabbit have two behaviours: \textit{run away} and \textit{feed}.
 	Every scenarios concern a rabbit which has spotted a wolf and which reason about how to run away.
 	The specificity of \textit{run away} behaviour is that it ignore observations about flowers. 
 	
 	Reasoning about flower is useless in these scenarios and can take a lot of time regarding the number of flower to consider.
 	Here, flowers are used to illustrate unnecessary informations and how modular reasoning can avoid this kind of knowledge.
-	
 	
 	The figure \ref{scenario_1} represent the first scenario, here there is no flower.
 	In this scenario the rabbit just consider the movement he can perform regarding the distance between him and his predator.
@@ -670,6 +689,16 @@ Gauvain Bourgne\\
 	
 	The figure \ref{scenario_3} represent the third scenario, here our agent are in a field 25 flowers.
 	Like in the second scenario, the monolithic reasoning lose time to reason about these flowers but the modular one does not.
+	
+	\begin{figure}
+		\centering
+		\includegraphics[keepaspectratio=true, scale=0.4]{modular_knowledge_experiment.pdf}
+		\caption
+		{
+			\label{modular_knowledge_experiment}
+			Representation of rabbit knowledge by an ASP modules graph.
+		}
+	\end{figure}
 	
 	\begin{figure}
 		\centering
@@ -701,16 +730,19 @@ Gauvain Bourgne\\
 		}
 	\end{figure}
 
-\section{Conclusions}
+\section{Conclusions and Outlook}
 
 	We provide a method based on ASP modules to design agent knowledge and reasoning.
-	This representation allows to intuitively implements dynamic behaviours.
-	We also provide a framework which allows agent reasoning via ASP modules.
-	Regarding monolithic ASP program, a first improvement of our method is the reduction of reasoning search space.
+	This representation allows to intuitively implements dynamic behaviours via meta-reasoning.
+	We also provide a framework which allows agent reasoning by module combination.
+	Regarding an equivalent monolithic representation, a first improvement of our method is the reduction of reasoning search space.
 	Its also cause reduction of code size because modules are reusable for multiple purposes.
 	
-	In this paper we use ASP but this method can be easily adapted for other programming language, logic or not.
-	
+	In this paper, agent reasoning is very directed by meta-knowledge modules, 
+	an interesting outlook will be to give the possibility to the agent to really choose which module combination he want to use.
+	Make agent able to construct themselves a reasoning architecture like the one of figure \ref{modular_knowledge} is also an interesting research topic.
+	Learning can also concern module content, an agent could choose to create new observations modules for storing specific information.
+	Modular representation give new perspective for meta-reasoning and learning.
 %
 % The following two commands are all you need in the
 % initial runs of your .tex file to
