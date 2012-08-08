@@ -45,6 +45,9 @@
 \usepackage{graphicx}
 \usepackage{color}
 \usepackage{algorithm,algorithmic}
+\usepackage{multirow}
+
+\usepackage{module}
 
 \graphicspath{{pictures/}}
 
@@ -194,13 +197,13 @@ Gauvain Bourgne\\
 
 \begin{abstract}
 	In this work, our interest is about multi-agent systems in dynamic environment.
-	Here, we focus on representation of agent knowledge and reasoning.
-	For reasoning in such environment, an agent needs to be able to manage his knowledge in a non-monotonic way.
-	To reach his goals in a changing context, an agent needs to adapt his believes and behaviour regarding the current state of the world.
-	Our objective is to define a method which makes easier to design agent knowledge and reasoning in such environment.
+	Here, we focus on one agent regarding knowledge representation and reasoning.
+	In such environment, an agent needs to be able to manage his knowledge in a non-monotonic way.
+	To reach his goals in a changing context, he have to adapt his beliefs and behaviour regarding the current state of the world.
+	Our objective is to define a method which makes easier to design agent knowledge and reasoning in a dynamic context.
 	For this purpose, we use the expressibility of answer set programming to propose a method based on ASP modules combinations.
 	By using meta-knowledge on these combinations we represent dynamic behaviours and meta-reasoning.
-	We also propose a framework to implement and use this method in multi-agent systems.
+	We also propose a framework and a algorithm to implement and use this method in multi-agent systems.
 \end{abstract}
 
 % Note that the category section should be completed after reference to the ACM Computing Classification Scheme available at
@@ -221,31 +224,6 @@ Gauvain Bourgne\\
 
 \section{Introduction}
 
-	In this work we consider an agent as an entity which is able to reason and communicate with his fellows.
-	We divide the knowledge of an agent in two part:\newline
-		\begin{itemize}
-			\item $K$ a set of not revisable knowledge composed of :
-			\begin{itemize}
-				\item $T$ the common theory
-				\item $O$ the current observations
-			\end{itemize}
-			\item $B$ a set of revisable knowledge
-		\end{itemize}
-	
-	$T$ is the common knowledge of all agent of a multi-agent system, it is considered as certain and not revisable.
-	A common theory can also be limited to a group of agent which does not contain all the system.
-	Observations are informations retrieved from the environment, it represents the current state of the world.
-	If we consider that sensors are perfect then a current observation is not revisable.
-	At time step 0, the knowledge of an agent is his common theory.
-	This knowledge is extended by adding observations and its consequences at each new time step.
-
-	$B$ is agent's beliefs, it represent informations supposed as true by the agent and which are revisable.
-	In a dynamic environment, if current observations are certain, it is not the case of past ones.
-	If an agent assume that past observations are correct until new ones prove the contrary his memory is a part of his beliefs.
-	For example if an agent $a$ see an agent $b$ at position $p$ at time $T$.
-	At $T+1$, $a$ does not see any more the position $p$ but he also does not see agent $b$.
-	Then $a$ can assume that $b$ is always at position $p$ at $T+1$ and when $a$ will see again the position $p$ or $b$ he will revise his memory if needed.
-
 	In recent years, many works focus on specific aspect of multi-agents systems such as communications, reasoning, learning or planning.
 	Regarding communications, in \cite{DBLP:conf/ecai/BourgneIM10, DBLP:conf/lads/BourgneIM10} authors are interesting 
 	by propagation of information in a group of agent.
@@ -261,6 +239,33 @@ Gauvain Bourgne\\
 	His knowledge have to be updated regarding world changes by adding new observations or revising old ones.
 	The behaviour of an agent needs to be suitable to the current situation and able to evolve with it.
 	Designing such kind of reasoning is an interesting challenge which is the purpose of this work.
+
+	In this work We divide the knowledge of an agent in two part:\newline
+		\begin{itemize}
+			\item $K$ a set of not revisable knowledge composed of:
+			\begin{itemize}
+				\item $C$ the common theory
+				\item $O$ the current observations
+			\end{itemize}
+			\item $B$ a set of revisable knowledge composed of:
+			\begin{itemize}
+				\item $M$ the memory of past observations 
+			\end{itemize}
+		\end{itemize}
+	
+	$T$ is the common background knowledge of all agent of a multi-agent system, it is considered as certain and not revisable.
+	A common theory can also be limited to a group of agent which does not contain all the system.
+	Observations are informations retrieved from the environment, it represents the current state of the world.
+	If we consider that sensors are perfect then a current observation is not revisable.
+	At time step 0, the knowledge of an agent is his common theory.
+	This knowledge is extended by adding observations and its consequences at each new time step.
+
+	$B$ is agent's beliefs, it represent informations supposed as true by the agent and which are revisable.
+	In a dynamic environment, if current observations are certain, it is not the case of past ones.
+	If an agent assume that past observations are correct until new ones prove the contrary his memory $M$ is a part of his beliefs.
+	For example if an agent $a$ see an agent $b$ at position $p$ at time $T$.
+	At $T+1$, $a$ does not see any more the position $p$ but he also does not see agent $b$.
+	Then $a$ can assume that $b$ is always at position $p$ at $T+1$ and when $a$ will see again the position $p$ or $b$ he will revise his memory if needed.
 	
 	To make our work more understandable we will follow an intuitive example along our propositions: a survival game which represent a MAS in a dynamic environment.
 	In this game there are three groups of agents: wolfs, rabbits and flowers.
@@ -270,23 +275,22 @@ Gauvain Bourgne\\
 	Wolfs have only one goal: feed themselves.
 	To reach this goal they have to catch and eat rabbits.
 	A wolf can be in two situations: a prey is in sight or not.
-	If there is no rabbit in the sight range of a wolf, the predator have to explore his environment to find one.
+	If there is no rabbit in the sight range of a wolf, the predator has to explore his environment to find one.
 	When a prey is spotted, a wolf will try to perform a sneaky approach if he is not spotted himself, otherwise the predator will rush on his target.
 	To resume, a wolf have three behaviours: exploration, approach and attack.
 	
-	Rabbits have two goals : feed and not be eat.
-	On a first hand, a rabbit have to eat flowers and on an other hand it have to escape from wolf.
-	Like a wolf, if no prey is in sight a rabbit need to explore its environment.
-	But by doing this, a rabbit can find preys or predators.
+	Rabbits have two goals : feed and not be eaten.
+	On a first hand, a rabbit has to eat flowers and on an other hand it have to escape from wolf.
+	Like a wolf, if no prey is in sight a rabbit needs to explore its environment, but he can find preys and predators.
 	The exploration behaviour of a rabbit is more complex than the one of a wolf.
-	For example: when a rabbit move it can choose the position with the best sight range for easily spotted its predators.
-	When a wolf is spotted, survive is more important than feed then a rabbit have to hide or run away.
+	For example: when a rabbit moves it can choose the position with the best sight range to spotted its predators.
+	When a wolf is spotted, surviving is more important than feeding then a rabbit has to hide or run away.
 	To resume, a rabbit have four behaviours: exploration, feed, hide and run away.
-	In this paper our examples will focus on rabbit agent for knowledge representation and reasoning.
+	In this paper our examples focus on rabbit agent for knowledge representation and reasoning.
 	
-	Flowers are passive agents: the environment have no effect on their behaviour.
+	Flowers are passive agents: the environment has no effect on their behaviour.
 	The only goal of a flower is to reproduce.
-	A flower produce regularly a new one after a certain amount of time.
+	A flower produces regularly a new one after a certain amount of time.
 	Knowledge of a flower does not change regarding time.
 	A flower is an independent agent, it does not care about others agents.
 
@@ -318,14 +322,14 @@ Gauvain Bourgne\\
 	\end{definition}
 
 	Answer set programming (ASP) is a form of declarative programming based on the stable model semantics of logic programming.
-	An ASP program describes a problem, not how to solve it.
+	An ASP program declare a problem, not how to solve it.
 	Such program is composed of facts, rules and constraints. 
-	Rule with an empty body: $H.$ are facts.
-	Rules without head: $\leftarrow a_{1}, \ldots , a_{n}, \neg b_{1} \ldots, \neg b_{m}.$ are constraints.
+	A rule with an empty body: $H.$ is a fact.
+	A rule without head: $\leftarrow a_{1}, \ldots , a_{n}, \neg b_{1} \ldots, \neg b_{m}.$ is a constraint.
 	When conditions of constraints are evaluated as true its imply $\bot$.
-	In this paradigm the search of solution is resume to compute answer sets of ASP program.
+	In this paradigm the search of solution consist in compute answer sets of ASP program.
 	An answer set is a set of facts which is consistent with all constraints of the program, its facts are deduce from facts and rules of the program.
-	To compute it we run a solver on such program.
+	To compute it, we run an ASP solver on the program.
 	
 	\begin{example}
 		\label{ASP_example}
@@ -338,10 +342,10 @@ Gauvain Bourgne\\
 		$\leftarrow$ wet.
 	\end{example}
 	
-	In example \ref{ASP_example} \{\emph{rain}, \emph{stay}\} is an answer set of this ASP program but \{\emph{rain}, \emph{go\_out}, \emph{wet}\} is not, 
-	because it is not consistent with the constraint.
+	In example \ref{ASP_example} \{\emph{rain}, \emph{stay}\} is an answer set of the ASP program, but \{\emph{rain}, \emph{go\_out}, \emph{wet}\} is not, 
+	because it contains \emph{wet} which is not consistent with the constraint \emph{$\leftarrow$ wet}.
 	
-	Many research work concern ASP or use it to represent knowledge such as \cite{DBLP:conf/atal/BaralGSP10} or \cite{DBLP:conf/clima/NieuwenborghVHV06}.
+	Many research work use ASP to represent knowledge and reasoning such as \cite{DBLP:conf/atal/BaralGSP10} or \cite{DBLP:conf/clima/NieuwenborghVHV06}.
 	In the first one, the authors use it to represent the knowledge of an agent about the knowledge of others agents.
 	In the second one, they focus on the flexibility of reasoning by introducing soft constraints: constraints which can be violate in some case.
 	Others works like \cite{DBLP:conf/datalog/Costantini10} design ASP methods to improve some specific property of agent reasoning.
@@ -352,44 +356,55 @@ Gauvain Bourgne\\
 \section{ASP modules}
 
 	An ASP module is an ASP program which have a specific form and a specific use.
-	The first advantage of these modules is their simplicity: a module is a little program which represent a specific knowledge.
-	We can have a module which contain observations about surroundings,
+	The first advantage of these modules is their simplicity: a module is a little program which represents a specific knowledge.
+	We can have a module which contains observations about surroundings,
 	an other one to define what is a prey and a module dedicated to compute path.
 	By combining this three modules an agent can compute all paths to surroundings preys.
 	To design agent knowledge we respect a module typology to represent background knowledge, observations and meta-knowledge.
 
 \subsection{Typology}
 
-	\begin{definition}[Background module]
-		A background module is a set of rules which represent knowledge about a specific domain.
-		The set of all background modules of an agent represent his background knowledge.
+	Following previous distinction of agent knowledge we define a typology to represent common theory $C$ and observations memory $M$,
+	respectively by \emph{theory modules} and \emph{observations modules}.
+	To represent knowledge about module combinations we define \emph{meta-knowledge modules}.
+	Their is two kind of such modules, ones who produce or use knowledge to make decision and ones who represent a unique module combination.
+	In following figures we represent  \emph{observation modules} by dot rectangle and  \emph{theory} one by plain rectangle.
+	To distinguish \emph{meta-knowledge modules} which make decision from ones who do not, we represent it respectively by plain and dot circles.
+	Module represented by dot form only contains facts and plain one can contain rules and constraint.
+
+	\begin{definition}[Theory module]
+		A theory module is a set of rules which represent knowledge about a specific domain.
+		The set of all theory modules of an agent represent his background knowledge.
 		The purpose of these modules is to organise knowledge representation and produce
 		new knowledge by combining it with others modules.
 	\end{definition}
 	
-	Example \ref{rules_example} show two background modules, the first one represent knowledge about agent possibility of movement and 
+	Example \ref{theory_example} show two theory modules, the first one represent knowledge about agent possibility of movement and 
 	the second one represent knowledge about movement as an action.
 	To simplify the first module of this example, \textit{distance/3} is supposed given by an other module and 
 	his third argument is the distance between an agent A and a position P.
-	Predicate \textit{action/2} specify the number of action that an agent can perform in one time step.
+	Predicate \textit{nb\_action/2} specify the number of action that an agent can perform in one time step.
 	The first module can be use by a rabbit to compute his movement possibility and the ones of his predator.
 	The second module define the movement action, it specify that only one move can be perform and it should not be in the movement range of a wolf.
 	By combining this two modules with observations about wolf a rabbit will produce all possible movement which are not in the direct movement range of any wolf.
 	
 	\begin{example}
-		\label{rules_example}
-		A background module of a rabbit about movement where A is an agent, P a position and S a number of step:\newline
-		\newline
-		reachable(A,P,S) $\leftarrow$ distance(A,P,S).\newline
-		reachable(A,P) $\leftarrow$ reachable(A,P,S), action(A,S).
-		\newline
-		A background module about actions:\newline
-		\newline
-		action(me,3).\newline
-		action(wolf,4).\newline
-		0\{move(me,P)\}1 $\leftarrow$ reachable(me,P).\newline
-		$\leftarrow$ move(A,P1), move(A,P2), P1 != P2.\newline
-		$\leftarrow$ move(me,P), reachable(wolf,P).
+		\label{theory_example}
+		
+		A theory module of a rabbit about movement and one about actions where A is an agent, P a position and S a number of time step:\newline
+		\begin{module}{Move}{6cm}
+			reachable(A,P,$\frac{D}{N}$) $\leftarrow$ distance(A,P,D), nb\_action(A,N).\newline
+			reachable(A,P) $\leftarrow$ reachable(A,P,0).
+		\end{module}
+		
+		\begin{module}{Action}{6cm}
+			nb\_action(me,3).\newline
+			nb\_action(wolf,4).\newline
+			0\{move(me,P)\}1 $\leftarrow$ reachable(me,P).\newline
+			$\leftarrow$ move(A,P1), move(A,P2), P1 != P2.\newline
+			$\leftarrow$ move(me,P), reachable(wolf,P).
+		\end{module}
+		
 	\end{example}
 
 	\begin{definition}[Observations module]
@@ -400,22 +415,23 @@ Gauvain Bourgne\\
 	\end{definition}
 	
 	\begin{example}
-		An observations module of a rabbit about wolfs positions :\newline
-		\newline
-		position(wolf,0,3).\newline
-		position(wolf,2,5).\newline
-		position(wolf,2,6).\newline
-		\newline
-		An observations module of a rabbit about himself : \newline
-		\newline
-		me("Bugs Bunny").\newline
-		position("Bugs Bunny",0,0).\newline
-		type("Bugs Bunny",rabbit).\newline
+		An observations module of a rabbit about wolfs positions and one about himself :\newline
+		\begin{module}{Wolf}{6cm}
+			position(wolf,0,3).\newline
+			position(wolf,2,5).\newline
+			position(wolf,2,6).
+		\end{module}
+		
+		\begin{module}{Myself}{6cm}
+			me("Bugs Bunny").\newline
+			position("Bugs Bunny",0,0).\newline
+			type("Bugs Bunny",rabbit).
+		\end{module}
 	\end{example}
 
 	With this two kind of modules we can represent the background theory and observations of an agent.
 	The idea now is that we can combine our modules to produce different kind of knowledge.
-	The figure \ref{module_combination} represent the knowledge of a rabbit by a set of observations modules and background modules.
+	The figure \ref{module_combination} represent the knowledge of a rabbit by a set of observations modules and theory modules.
 	In this example, by combining modules \emph{Myself}, \emph{Field} and \emph{Move} a rabbit will produce all his possibility of movement.
 	The combination \{\emph{Rabbit}, \emph{Field}, \emph{Move}\} will produce all possible movements that others rabbits can perform. 
 	By combining \{\emph{Myself}, \emph{Field}, \emph{Flower}, \emph{Move}, \emph{Eat}, \emph{Action}\} 
@@ -430,14 +446,14 @@ Gauvain Bourgne\\
 		\caption
 		{
 			\label{module_combination}
-			Knowledge base of a rabbit divided into observations modules (dot ones) and background modules (plain ones).
+			Knowledge base of a rabbit divided into observations modules (dot ones) and theory modules (plain ones).
 		}
 	\end{figure}
 
 	We have presented different way to use agent knowledge via module combination.
 	But these combinations are also a kind of knowledge and it can be known by the agent.
 	For the agent it is meta-knowledge on his knowledge, more precisely in this case it is knowledge about the use of his knowledge.
-	This meta-knowledge is a part of the background theory of an agent and could be represented by background modules.
+	This meta-knowledge is a part of the background theory of an agent and could be represented by theory modules.
 	But to clarify the design of agent knowledge we dedicated a new kind of modules to represent it.
 
 	\begin{definition}[Meta-knowledge module]
@@ -455,14 +471,15 @@ Gauvain Bourgne\\
 	
 	\begin{example}
 		\label{run_away_example}
-		A meta-knowledge module which describe the approach behaviour of wolf:\newline
-		\newline
-		\textbf{use\_module}("Myself").\newline
-		\textbf{use\_module}("Wolf").\newline
-		\textbf{use\_module}("Field").\newline
-		\textbf{use\_module}("Move").\newline
-		\textbf{use\_module}("Eat").\newline
-		\textbf{use\_module}("Action").
+		A meta-knowledge module which describe the \emph{run away} behaviour of rabbit:\newline
+		\begin{module}{Run away}{6cm}
+			\textbf{use\_module}("Myself").\newline
+			\textbf{use\_module}("Wolf").\newline
+			\textbf{use\_module}("Field").\newline
+			\textbf{use\_module}("Move").\newline
+			\textbf{use\_module}("Eat").\newline
+			\textbf{use\_module}("Action").
+		\end{module}
 	\end{example}
 	
 	\begin{figure}
@@ -477,15 +494,16 @@ Gauvain Bourgne\\
 	
 	\begin{example}
 		\label{feed_example}
-		A meta-knowledge module which describe the attack behaviour of wolf:\newline
-		\newline
-		\textbf{use\_module}("Myself").\newline
-		\textbf{use\_module}("Rabbit").\newline
-		\textbf{use\_module}("Flower").\newline
-		\textbf{use\_module}("Field").\newline
-		\textbf{use\_module}("Move").\newline
-		\textbf{use\_module}("Eat").\newline
-		\textbf{use\_module}("Action").
+		A meta-knowledge module which describe the feed behaviour of rabbit:\newline
+		\begin{module}{Feed}{6cm}
+			\textbf{use\_module}("Myself").\newline
+			\textbf{use\_module}("Rabbit").\newline
+			\textbf{use\_module}("Flower").\newline
+			\textbf{use\_module}("Field").\newline
+			\textbf{use\_module}("Move").\newline
+			\textbf{use\_module}("Eat").\newline
+			\textbf{use\_module}("Action").
+		\end{module}
 	\end{example}
 	
 	\begin{figure}
@@ -510,11 +528,12 @@ Gauvain Bourgne\\
 	
 	\begin{example}
 		\label{survive_example}
-		A meta-knowledge module which describe the hunting behaviour of wolf:\newline
-		\newline
-		predator $\leftarrow$ position(wolf,Position).\newline
-		\textbf{use\_module}("Run away") $\leftarrow$ predator.\newline
-		\textbf{use\_module}("Feed") $\leftarrow$ prey, not predator.\newline
+		A meta-knowledge module which describe the survive behaviour of a rabbit:\newline
+		\begin{module}{Survive}{6cm}
+			predator $\leftarrow$ position(wolf,Position).\newline
+			\textbf{use\_module}("Run away") $\leftarrow$ predator.\newline
+			\textbf{use\_module}("Feed") $\leftarrow$ prey, not predator.
+		\end{module}
 	\end{example}
 	
 	\begin{figure}
@@ -597,7 +616,7 @@ Gauvain Bourgne\\
 		}
 	\end{figure}
 	
-\section{Implementation}
+\subsection{Implementation}
 
 	To allow an agent to use our method for reasoning in dynamic environment we implemented this framework.
 	Algorithm \ref{framework_algorithm} represent a simplified version of this tool.
@@ -669,7 +688,14 @@ Gauvain Bourgne\\
 	To eat his prey, a predator have to be on the same square.
 	These experimental results focus on the reasoning time of a rabbit regarding a specific scenario.
 	Here we compare modular and monolithic reasoning time: the first one needs multiple step to reach the module combination
-	which correspond to the situation and the second one use directly the entire knowledge base.
+	which correspond to the situation and the second one use directly the entire knowledge base (the background knowledge and all observations).
+	In these experiments, the module combination \{\emph{Field}, \emph{Move}, \emph{Action}, \emph{Eat}, \emph{Myself}\} is always use at the end of reasoning.
+	Difference between modular and monolithic here, is limited to use of observations about flowers.
+	
+\subsection{Context}
+	
+	In these experiments, the rabbit use the algorithm \ref{framework_algorithm} for reasoning.
+	His observations concern the entire map, he knows what is on each square, it include the position of wolfs and flowers.
 	The figure \ref{modular_knowledge_experiment} represent the modular knowledge of the rabbit in these experiments.
 	It is a simplified version where rabbit have two behaviours: \textit{run away} and \textit{feed}.
 	Every scenarios concern a rabbit which has spotted a wolf and which reason about how to run away.
@@ -696,7 +722,7 @@ Gauvain Bourgne\\
 		\caption
 		{
 			\label{modular_knowledge_experiment}
-			Representation of rabbit knowledge by an ASP modules graph.
+			Rabbit knowledge in experiments, simplified to two behaviours.
 		}
 	\end{figure}
 	
@@ -729,7 +755,51 @@ Gauvain Bourgne\\
 			Scenario 3, a rabbit and a wolf in a field of 25 flowers.
 		}
 	\end{figure}
+	
+\subsection{Results}
 
+	In these experiment our interest is about rabbit reasoning time.
+	This time correspond of the run of algorithm \ref{framework_algorithm}, which include clingo solving time.
+	The time we use is user one, to have a relevant value we compute the average running time on 1000 runs for each methods on each scenarios.
+	These 6 sequences of 1000 runs test have been perform consequently in the same running conditions on a Intel Core 2 Duo P8400 2.26GHz CPU.
+	Table \ref{Experiment_tab} resume these experimental results.
+	
+	\begin{table}
+		\label{Experiment_tab}
+		\centering
+		\begin{tabular}{ | c | c | c | c | c | }
+		\hline
+		Scenario & Method & Time avg & T-test & Runs\\	
+		\hline
+	 	\multirow{2}{*}{1} & Monolithic & 0.351 s & \multirow{2}{*}{$$7.6E-10$$} & \multirow{6}{*}{1000} \\
+		& Modular & 0.373 s & & \\ \cline{1-4}
+		\multirow{2}{*}{2} & Monolithic & 0.410 s & \multirow{2}{*}{$$2.99E-28$$} & \\
+		& Modular & 0.372 s & & \\ \cline{1-4}
+		\multirow{2}{*}{3} & Monolithic & 0.744 s & \multirow{2}{*}{0} &\\
+		& Modular & 0.373 s & &\\
+		\hline
+		\end{tabular}
+		\caption
+		{
+			Experimental results on scenarios of figure \ref{scenario_1}, \ref{scenario_2} and \ref{scenario_3}.
+			For each method it shows reasoning time average on 1000 runs and T-test result.
+		}
+	\end{table}
+	
+	In scenario 1, figure \ref{scenario_1}, monolithic reasoning run is about 0.351 and modular one is about 0.373.
+	Here use of multiple reasoning step by modular representation cause 6\% more time for reasoning.
+	In scenario 2, figure \ref{scenario_2}, run time of monolithic reasoning up to 0.410 because it consider now 4 flowers, but
+	modular one does not and it reasoning time is about 0.372.
+	Modular reasoning take 9\% less time than monolithic one because it ignore flowers observations.
+	For scenario 3, figure \ref{scenario_3}, we observe the same reasoning time evolution.
+	Monolithic reasoning time is now about 0.744 and modular one stay at 0.373, here reasoning about module combination allows to reduce reasoning time by 50\%.
+	
+	These experiment show that modular knowledge representation and knowledge about module combination can be useful to reduce reasoning search space.
+	Here we only show the effect of ignoring observations, but in a knowledge representation like \ref{modular_knowledge}, a part of the background knowledge can
+	also be ignore. In these model, \emph{View} module is not use in behaviours \emph{feed} and \emph{run away}.
+	Regarding knowledge organisation it is possible to have a modular representation which is always more efficient in reasoning time than monolithic one.
+	Designing such reasoning pattern imply to find the balance between the time loose by multiple reasoning step and search space reduction.
+	
 \section{Conclusions and Outlook}
 
 	We provide a method based on ASP modules to design agent knowledge and reasoning.
@@ -757,6 +827,6 @@ Gauvain Bourgne\\
 % ACM needs 'a single self-contained file'!
 %
 
-\nocite{*}
+%\nocite{*}
 
 \end{document}

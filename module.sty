@@ -1,0 +1,19 @@
+\usepackage{boxedminipage}
+
+\newenvironment{module}[2]
+{
+	\begin{center}
+		\begin{minipage}{#2}
+			\flushleft
+			\fbox{#1}
+			\begin{boxedminipage}{#2}
+				\centering
+				\begin{minipage}{#2}
+					\flushleft
+}
+{
+				\end{minipage}
+			\end{boxedminipage}
+		\end{minipage}
+	\end{center}
+}
