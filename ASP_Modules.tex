@@ -160,7 +160,7 @@ Gauvain Bourgne\\
 
 %Keywords are your own choice of terms you would like the paper to be indexed by.
 
-\keywords{Multi-Agents System, Answer Set Programming, Meta-knowledge, ASP modules}
+\keywords{Multi-Agents System, Answer Set Programming, ASP modules}
 
 \section{Introduction}
 
@@ -220,19 +220,19 @@ Gauvain Bourgne\\
 	To resume, a wolf have three behaviours: exploration, approach and attack.
 	
 	Rabbits have two goals : feed and not be eaten.
-	On a first hand, a rabbit has to eat flowers and on an other hand it have to escape from wolf.
+	On a first hand, a rabbit has to eat flowers and on an other hand it has to escape from wolf.
 	Like a wolf, if no prey is in sight a rabbit needs to explore its environment, but he can find preys and predators.
 	The exploration behaviour of a rabbit is more complex than the one of a wolf.
-	For example: when a rabbit moves it can choose the position with the best sight range to spotted its predators.
-	When a wolf is spotted, surviving is more important than feeding then a rabbit has to hide or run away.
+	When a rabbit moves it could choose the position with the best sight range to spotted its predators.
+	If a wolf is spotted, surviving is more important than feeding then a rabbit has to hide or run away.
 	To resume, a rabbit have four behaviours: exploration, feed, hide and run away.
-	In this paper our examples focus on rabbit agent for knowledge representation and reasoning.
+	In this paper, examples and experiments focus on rabbit agent knowledge representation and reasoning.
 	
 	Flowers are passive agents: the environment has no effect on their behaviour.
 	The only goal of a flower is to reproduce.
 	A flower produces regularly a new one after a certain amount of time.
 	Knowledge of a flower does not change regarding time.
-	A flower is an independent agent, it does not care about others agents.
+	Flowers are independent, it does not care about others agents.
 
 	\begin{figure}
 		\centering
@@ -245,13 +245,16 @@ Gauvain Bourgne\\
 		}
 	\end{figure}
 	
-	Answer set programming which is a specification and an implementation language is very suitable to represent agent knowledge and reasoning.
-	The methods introduce by this work is based on ASP modules and their combinations.
-	ASP modules allows to represent agent behaviours in an intuitive and elegant way.
-	We divide agent knowledge into different modules and use different modules combinations for reasoning.
-	It allows agent to perform meta-reasoning: they use knowledge on modules combinations to adapt their reasoning and so on their behaviour to the situation.
+	The methods introduced by this work is based on modular knowledge representation.
+	Agent knowledge is divided into different modules which are combined for reasoning.
+	This representation also allows agent to perform meta-reasoning by using knowledge on modules combinations.
+	One interest is that an agent can adapt his reasoning and so on his behaviour to environment changes.
 
 \section{Answer set programming}
+
+	Answer set programming (ASP) which is a specification and an implementation language is very suitable to represent agent knowledge and reasoning.
+	ASP is a form of declarative programming based on the stable model semantics of logic programming.
+	In this section, we briefly introduce ASP paradigm and semantics.
 
 	\begin{definition}[Rule]
 		Let $H$, $a_{i}$ and $b_{i}$ literals and the rule
@@ -261,14 +264,13 @@ Gauvain Bourgne\\
 		$H$ is the head of the rule and the conjunction of $a_{i}$, $\neg b_{i}$ is the body.
 	\end{definition}
 
-	Answer set programming (ASP) is a form of declarative programming based on the stable model semantics of logic programming.
 	An ASP program declare a problem, not how to solve it.
 	Such program is composed of facts, rules and constraints. 
 	A rule with an empty body: $H.$ is a fact.
 	A rule without head: $\leftarrow a_{1}, \ldots , a_{n}, \neg b_{1} \ldots, \neg b_{m}.$ is a constraint.
 	When conditions of constraints are evaluated as true its imply $\bot$.
-	In this paradigm the search of solution consist in compute answer sets of ASP program.
-	An answer set is a set of facts which is consistent with all constraints of the program, its facts are deduce from facts and rules of the program.
+	In this paradigm the search of solution consist to compute answer sets of ASP program.
+	An answer set is a set of facts which is consistent with all constraints of the program, its facts are deduced from facts and rules of the program.
 	To compute it, we run an ASP solver on the program.
 	
 	\begin{example}
@@ -282,11 +284,11 @@ Gauvain Bourgne\\
 		$\leftarrow$ wet.
 	\end{example}
 	
-	In example \ref{ASP_example} \{\emph{rain}, \emph{stay}\} is an answer set of the ASP program, but \{\emph{rain}, \emph{go\_out}, \emph{wet}\} is not, 
+	In example \ref{ASP_example}, the set of facts \{\emph{rain}, \emph{stay}\} is an answer set of the ASP program, but \{\emph{rain}, \emph{go\_out}, \emph{wet}\} is not, 
 	because it contains \emph{wet} which is not consistent with the constraint \emph{$\leftarrow$ wet}.
 	
 	Many research work use ASP to represent knowledge and reasoning such as \cite{DBLP:conf/atal/BaralGSP10} or \cite{DBLP:conf/clima/NieuwenborghVHV06}.
-	In the first one, the authors use it to represent the knowledge of an agent about the knowledge of others agents.
+	In the first one, the authors use it to represent agent knowledge about others agents knowledge.
 	In the second one, they focus on the flexibility of reasoning by introducing soft constraints: constraints which can be violate in some case.
 	Others works like \cite{DBLP:conf/datalog/Costantini10} design ASP methods to improve some specific property of agent reasoning.
 	In this work the author focus on reactivity by using ASP modules where constraints are used as actions trigger.
@@ -319,25 +321,16 @@ Gauvain Bourgne\\
 		new knowledge by combining it with others modules.
 	\end{definition}
 	
-	Example \ref{theory_example} show two theory modules, the first one represent knowledge about agent possibility of movement and 
-	the second one represent knowledge about movement as an action.
-	To simplify the first module of this example, \textit{distance/3} is supposed given by an other module and 
-	his third argument is the distance between an agent A and a position P.
-	Predicate \textit{nb\_action/2} specify the number of action that an agent can perform in one time step.
-	The first module can be use by a rabbit to compute his movement possibility and the ones of his predator.
-	The second module define the movement action, it specify that only one move can be perform and it should not be in the movement range of a wolf.
-	By combining this two modules with observations about wolf a rabbit will produce all possible movement which are not in the direct movement range of any wolf.
-	
 	\begin{example}
 		\label{theory_example}
 		
 		A theory module of a rabbit about movement and one about actions where A is an agent, P a position and S a number of time step:\newline
-		\begin{module}{Move}{6cm}
+		\begin{module}{Move}{8cm}
 			reachable(A,P,$\frac{D}{N}$) $\leftarrow$ distance(A,P,D), nb\_action(A,N).\newline
 			reachable(A,P) $\leftarrow$ reachable(A,P,0).
 		\end{module}
 		
-		\begin{module}{Action}{6cm}
+		\begin{module}{Action}{8cm}
 			nb\_action(me,3).\newline
 			nb\_action(wolf,4).\newline
 			0\{move(me,P)\}1 $\leftarrow$ reachable(me,P).\newline
@@ -346,6 +339,16 @@ Gauvain Bourgne\\
 		\end{module}
 		
 	\end{example}
+	
+	Example \ref{theory_example} shows two theory modules, the first one represent knowledge about movement possibilities and 
+	the second one represent knowledge about actions.
+	To simplify the first module of this example, \textit{distance/3} is supposed given and 
+	his third argument is the distance between an agent $A$ and a position $P$.
+	Predicate \textit{nb\_action/2} specify the number of actions that an agent can perform in one time step.
+	The first module can be use by a rabbit to compute his movement possibility and the ones of his predators.
+	The second module define the movement action, it specify that only one move can be perform and it cannot be in the movement range of a wolf.
+	By combining this two modules with observations about wolf, a rabbit will produce all possible movement he can perform and 
+	which are not in the direct movement range of any wolf.
 
 	\begin{definition}[Observations module]
 		An observations module is a set of facts which represent related observations.
@@ -357,27 +360,27 @@ Gauvain Bourgne\\
 	\begin{example}
 		An observations module of a rabbit about wolfs positions and one about himself :\newline
 		\begin{module}{Wolf}{6cm}
-			position(wolf,0,3).\newline
-			position(wolf,2,5).\newline
-			position(wolf,2,6).
+			position(wolf,coord(0,3)).\newline
+			position(wolf,coord(2,5)).\newline
+			position(wolf,coord(2,6)).
 		\end{module}
 		
 		\begin{module}{Myself}{6cm}
 			me("Bugs Bunny").\newline
-			position(me,0,0).
+			position(me,coord(0,0)).\newline
+			type(me,rabbit).
 		\end{module}
 	\end{example}
 
-	With this two kind of modules we can represent the background theory and observations of an agent.
-	The idea now is that we can combine our modules to produce different kind of knowledge.
+	By this two kind of modules, we can represent agent common theory and observations.
+	The idea now, is that we can combine these modules to produce different kind of knowledge.
 	The figure \ref{module_combination} represent the knowledge of a rabbit by a set of observations modules and theory modules.
 	In this example, by combining modules \emph{Myself}, \emph{Field} and \emph{Move} a rabbit will produce all his possibility of movement.
 	The combination \{\emph{Rabbit}, \emph{Field}, \emph{Move}\} will produce all possible movements that others rabbits can perform. 
 	By combining \{\emph{Myself}, \emph{Field}, \emph{Flower}, \emph{Move}, \emph{Eat}, \emph{Action}\} 
 	a rabbit will produce all possible actions he can perform now and their influence on the number of step needed to eat each flower.
-	
 	We can see here a first advantage of knowledge modularity: a module can be used for multiple purpose.
-	If we take the example of modules \emph{Move} and \emph{Eat}, an agent can use it to reason about its possibilities and the ones of other agent.
+	If we take the example of modules \emph{Move} and \emph{Eat}, an agent can use it to reason about its possibilities and the ones of others agents.
 	
 	\begin{figure}
 		\centering
@@ -391,34 +394,35 @@ Gauvain Bourgne\\
 
 	We have presented different way to use agent knowledge via module combination.
 	But these combinations are also a kind of knowledge and it can be known by the agent.
-	For the agent it is meta-knowledge on his knowledge, more precisely in this case it is knowledge about the use of his knowledge.
+	For an agent, it is meta-knowledge on his knowledge, more precisely in this case it is knowledge about the use of his knowledge.
 	This meta-knowledge is a part of the common theory of an agent and could be represented by theory modules.
 	But to clarify the design of agent knowledge we dedicated a new kind of modules to represent it: meta-knowledge module.
-	We define two kind of this modules: combination module and decision module.
+	We define two kind of these modules: combination module and decision module.
 	
 	\begin{definition}[Combination module]
-		A combination module is meta-knowledge module which represent an ASP modules combination.	
+		A combination module is a meta-knowledge module which represent an ASP modules combination.	
 		The purpose of these modules is to represent simple behaviours and factorise meta-knowledge.
 	\end{definition}
 	
-	A module combination can represent agent behaviour and by using meta-knowledge modules we can represent it in a elegant way.
+	A module combination can represent agent behaviour and by using meta-knowledge modules we can represent it in agent knowledge.
 	Most simple behaviour can be represented by a simple list of modules to combine, like in examples \ref{hide_example}, 
 	\ref{feed_example} and figures \ref{hide_figure}, \ref{feed_figure}.
-	The module combination \{\emph{Myself}, \emph{Wolf}, \emph{Field}, \emph{Move}, \emph{Eat}, \emph{Action}\} 
-	and \{\emph{Myself}, \emph{Rabbit}, \emph{Flower}, \emph{Field},  \emph{Move}, \emph{Eat}, \emph{Action}\} 
-	can respectively represent the \textit{run away} and the \textit{feed} behaviour of a rabbit.
-	This two combinations of modules can be represented by meta-knowledge modules, in this case theses modules have knowledge on theory and observations modules.
+	The module combination \{\emph{Wolf}, \emph{Myself}, \emph{hiding}, \emph{Action}, \emph{Move}, \emph{Eat}, \emph{View}, \emph{Field}\} 
+	and \{\emph{Myself}, \emph{Action}, \emph{Move}, \emph{Eat}, \emph{Field}, \emph{Flower}, \emph{Rabbit}\} 
+	can respectively represent \textit{hide} and \textit{feed} behaviours of a rabbit.
 	
 	\begin{example}
 		\label{hide_example}
-		A meta-knowledge module which describe the \emph{hide} behaviour of rabbit:\newline
+		A meta-knowledge module which represent rabbit \emph{hide} behaviour:\newline
 		\begin{module}{Run away}{6cm}
-			\textbf{use\_module}("Myself").\newline
 			\textbf{use\_module}("Wolf").\newline
-			\textbf{use\_module}("Field").\newline
+			\textbf{use\_module}("Myself").\newline
+			\textbf{use\_module}("Hiding").\newline
+			\textbf{use\_module}("Action").\newline
 			\textbf{use\_module}("Move").\newline
 			\textbf{use\_module}("Eat").\newline
-			\textbf{use\_module}("Action").
+			\textbf{use\_module}("View").\newline
+			\textbf{use\_module}("Field").
 		\end{module}
 	\end{example}
 	
@@ -434,15 +438,15 @@ Gauvain Bourgne\\
 	
 	\begin{example}
 		\label{feed_example}
-		A meta-knowledge module which describe the feed behaviour of rabbit:\newline
+		A meta-knowledge module which represent rabbit feed behaviour:\newline
 		\begin{module}{Feed}{6cm}
 			\textbf{use\_module}("Myself").\newline
-			\textbf{use\_module}("Rabbit").\newline
-			\textbf{use\_module}("Flower").\newline
-			\textbf{use\_module}("Field").\newline
+			\textbf{use\_module}("Action").\newline
 			\textbf{use\_module}("Move").\newline
 			\textbf{use\_module}("Eat").\newline
-			\textbf{use\_module}("Action").
+			\textbf{use\_module}("Field").\newline
+			\textbf{use\_module}("Flower").\newline
+			\textbf{use\_module}("Rabbit").
 		\end{module}
 	\end{example}
 	
@@ -461,15 +465,11 @@ Gauvain Bourgne\\
 		The purpose of these modules is to represent dynamic behaviours by performing decision on how to reason and use knowledge.
 	\end{definition}
 	
-	To represent more complex behaviour we can have meta-knowledge modules which have knowledge on other meta-knowledge modules.
-	For example we can represent the survive behaviour of a rabbit with such module, like in example \ref{survive_example} and figure \ref{survive_figure}.
-	If a rabbit spotted a wolf it will use the \emph{Run away} module otherwise it will use the \emph{Feed} module.
-	Regarding the situation the survive behaviour will be run way or approach flower.
-	Meta-knowledge modules allows to represent such dynamic behaviours which are dependent of the evolution of the environment.
-	Figure \ref{behaviour_tree} represent rabbit behaviour by a meta-knowledge module tree.
-	The behaviour of a rabbit is survive, regarding the situation a rabbit is hunted by a wolf or not.
-	When hunted, a rabbit have to run away or try to hide by go out of view range of his predator.
-	If there is no predator he will explore his environment to find flower and when one is spotted go to eat it.
+	To represent more complex behaviours, meta-knowledge modules need knowledge on other meta-knowledge modules.
+	Decision modules contain such knowledge, it can be used to represent dynamic behaviours and perform meta-reasoning.
+	Survive behaviour of a rabbit can be represent by such module, like in example \ref{survive_example} and figure \ref{survive_figure}.
+	If a rabbit spotted a wolf it will use the \emph{Hunted} module otherwise it will use the \emph{Hunting} module.
+	Survive behaviour is dynamic: it depends of the current state of the world.
 	
 	\begin{example}
 		\label{survive_example}
@@ -491,6 +491,12 @@ Gauvain Bourgne\\
 		}
 	\end{figure}
 	
+	Multiple meta-knowledge modules can represent agent global behaviour.
+	Figure \ref{behaviour_tree} represent rabbit behaviour by a meta-knowledge modules tree.
+	The behaviour of a rabbit is survive, regarding the situation a rabbit is hunted by a wolf or not.
+	When hunted, a rabbit has to run away if wolfs are close or to search for hiding place if not.
+	If there is no predator, he will explore his environment to find flowers and when one is spotted, find a way to eat it.
+	
 	\begin{figure}
 		\centering
 		\includegraphics[keepaspectratio=true, scale=0.5]{behaviour_tree.pdf}
@@ -502,43 +508,50 @@ Gauvain Bourgne\\
 		}
 	\end{figure}
 	
-\subsection{Architecture}
+\subsection{Framework}
 
-	The previous section shows that ASP modules can represent background knowledge, observations and behaviours of an agent.
-	To use this representation we define a reasoning architecture and a framework to use it in agent application.
+	The previous section shows how ASP modules can represent agent common theory, observations and behaviours.
+	To use this representation we define a reasoning architecture and a framework to use it in agent applications.
 	As show in figure \ref{framework_figure}, we divide agent reasoning into three phase : acquisition, deduction, action.
 	
 	Reasoning cycle start when agent sensors retrieve new observations, it's the beginning of the acquisition phase.
-	This phase deals with new observations and their consequences on old ones.
-	New observations are stored in corresponding observations modules and old ones are update.
+	During acquisition phase, agent memory is updated to make it consistent with new observations.
+	New observations are stored in corresponding observations modules and old ones are modified.
 	If a wolf see a rabbit at position P at time step T, he will store the information \textit{position(rabbit,P)} in module \textit{Rabbit}.
 	Now at T+1 the wolf see position P but no rabbit are at P, then the wolf have to remove the fact \textit{position(rabbit,P)} from module \textit{Rabbit}.
-	During acquisition phase, agent memory is update to make it consistent with new observations.
 	
-	After acquire observations, an agent will reason on what he can do regarding the current state of the world: it is the deduction phase.
+	After acquired observations, an agent will reason on what he can do regarding the current state of the world: it is the deduction phase.
 	The purpose of this reasoning phase is to deduce what actions are possible to perform.
-	Here we use an agent reasoning architecture based on ASP modules where meta-knowledge modules are use for meta-reasoning.
-	Meta-knowledge modules use agent observations to define his behaviour step by step.
-	Knowledge produce by module combination is keep in next reasoning steps, 
+	Here we use an agent reasoning architecture based on ASP modules where meta-knowledge modules are used for reasoning.
+	Decision modules use agent observations to define his behaviour and generate actions step by step.
+	Knowledge produced by module combination is keep in next reasoning steps, 
 	it means that answer set of the last reasoning step contains all deduction of previous ones.
-	These last answer set contains action and their consequences on the environment and the agent.
+	These last answer set contains actions and their consequences on the environment and the agent.
 	
-	The figure \ref{modular_knowledge} represent rabbit knowledge by an ASP modules graph where a node is an ASP module, 
-	undirected edge represent the use of a module and directed edge represent reasoning decisions.
-	Here meta-knowledge module \textit{Movement} is used to represent a module combination which produce movement actions of a rabbit,
-	other ones represent his behaviour like in figure \ref{behaviour_tree}.
-	The reasoning phase will start by using \textit{Behaviour} module which just specify to use \textit{Survive} one.
-	By combining \textit{Survive} module and wolf observation the rabbit will decide if he is hunted or have to hunt.
-	If he is hunted he will then combine \textit{Hunted} with wolf observations to decide if run away or hide is the best solution,
-	for example if the wolf is very near it is very risky to hide then run away will be choose.
-	If there is no wolf the rabbit will use \textit{Hunting} with flower observation, if there is no flower he will use \textit{Explore} module
-	and \textit{View} to try to find something to eat (\textit{View} module should contains some knowledge about view range).
-	If there is flower in his observations, a rabbit will use \textit{Feed} to produce actions will allows him to approach and eat flowers.
+	The figure \ref{modular_knowledge} represent rabbit knowledge by an ASP modules graph.
+	A node represent an ASP module and an edge represent the use of a module.
+	Edges with plain arrows represent reasoning decisions and open ones represent module combination.
+	In this representation, decision modules represent reasoning step.
+	Here, meta-knowledge modules represent agent behaviour like in figure \ref{behaviour_tree}.
+	In the example of figure \ref{modular_knowledge}, 
+	the deduction phase will start by using \textit{Behaviour} module which specify to combine \textit{Survive} module with wolfs observations.
+	By combining these modules the rabbit will decide if he is hunted or have to hunt.
+	When he is hunted, he will use \textit{Hunted} module to decide if he has to run away or hide.
+	Let's suppose that a wolf is too close to hide, then he will choose to run away, otherwise he will reason about where he can hide.
+	In the case of there is no wolf, the rabbit will use \textit{Hunting} module with flowers observations.
+	If there is no flower he will use \textit{Explore} module and when flowers are spotted he will use \textit{Feed} module.
+	
+	Module combination specify by \textit{Run away} module generate all possible movement and the number of step needed by each wolfs to eat the rabbit after his move.
+	The one of \textit{Hide} module add the theory module \textit{Hiding} and \textit{View} to this combination, to reason about where to hide regarding wolfs sight range. 
+	\textit{View} is also used with \textit{Discover} in \textit{Explore} module combination.
+	Here, it is the knowledge about rabbit range of view which is use to reason about environment exploration.
+	Finally, the module combination of \textit{Feed} module generate eating possibilities.
+	It include observations about other rabbits to compute if a flowers can be eaten by another rabbit before the agent.
 	
 	Now the agent have to choose which actions to perform, it means choose an answer set which allows him to approach or reach his goals.
-	To make this choice we can use constraint or use some modules to compute score to rank answer set.
-	For example module \textit{Eat} can compute the number of action a predator have to perform to eat a prey.
-	Then this module can be use by a rabbit to rank movement action to go far away from a wolf or to approach and eat a flower.
+	To make this choice we can use constraint and use some modules to compute score to rank answer set.
+	Here, module \textit{Eat} compute the number of action a predator have to perform to eat a prey.
+	This module can be use by a rabbit to rank movement action to go far away from a wolf or to approach and eat a flower.
 	After choosing the best answer set, corresponding actions are performed and 
 	the cycle continue by the acquisition of the real effect of theses actions on the environment.
 
@@ -562,7 +575,7 @@ Gauvain Bourgne\\
 		}
 	\end{figure}
 	
-\subsection{Implementation}
+\subsection{Implementation} %TODO
 
 	To allow an agent to use our method for reasoning in dynamic environment we implemented this framework.
 	Algorithm \ref{framework_algorithm} represent a simplified version of this tool.
