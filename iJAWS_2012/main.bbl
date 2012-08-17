@@ -1,0 +1,65 @@
+\begin{thebibliography}{10}
+
+\bibitem{DBLP:conf/aaaiss/BaralAD06}
+C.~Baral, S.~Anwar, and J.~Dzifcak.
+\newblock Macros, macro calls and use of ensembles in modular answer set
+  programming.
+\newblock In {\em AAAI Spring Symposium: Formalizing and Compiling Background
+  Knowledge and Its Applications to Knowledge Representation and Question
+  Answering}, pages 1--9, 2006.
+
+\bibitem{DBLP:conf/birthday/BaralG11}
+C.~Baral and G.~Gelfond.
+\newblock On representing actions in multi-agent domains.
+\newblock In {\em Logic Programming, Knowledge Representation, and Nonmonotonic
+  Reasoning}, pages 213--232, 2011.
+
+\bibitem{DBLP:conf/atal/BaralGSP10}
+C.~Baral, G.~Gelfond, T.~C. Son, and E.~Pontelli.
+\newblock Using answer set programming to model multi-agent scenarios involving
+  agents' knowledge about other's knowledge.
+\newblock In {\em AAMAS}, pages 259--266, 2010.
+
+\bibitem{DBLP:conf/lpnmr/Costantini09}
+S.~Costantini.
+\newblock Integrating answer set modules into agent programs.
+\newblock In {\em LPNMR}, pages 613--615, 2009.
+
+\bibitem{DBLP:conf/datalog/Costantini10}
+S.~Costantini.
+\newblock Answer set modules for logical agents.
+\newblock In {\em Datalog}, pages 37--58, 2010.
+
+\bibitem{DBLP:conf/birthday/FaberW11}
+W.~Faber and S.~Woltran.
+\newblock Manifold answer-set programs and their applications.
+\newblock In {\em Logic Programming, Knowledge Representation, and Nonmonotonic
+  Reasoning}, pages 44--63, 2011.
+
+\bibitem{DBLP:conf/iclp/GelfondL88}
+M.~Gelfond and V.~Lifschitz.
+\newblock The stable model semantics for logic programming.
+\newblock In {\em ICLP/SLP}, pages 1070--1080, 1988.
+
+\bibitem{DBLP:journals/amai/KowalskiS99}
+R.~A. Kowalski and F.~Sadri.
+\newblock From logic programming towards multi-agent systems.
+\newblock {\em Ann. Math. Artif. Intell.}, 25(3-4):391--419, 1999.
+
+\bibitem{DBLP:conf/clima/NieuwenborghVHV06}
+D.~V. Nieuwenborgh, M.~D. Vos, S.~Heymans, and D.~Vermeir.
+\newblock Hierarchical decision making in multi-agent systems using answer set
+  programming.
+\newblock In {\em CLIMA}, pages 20--40, 2006.
+
+\bibitem{DBLP:conf/icmas/RaoG95}
+A.~S. Rao and M.~P. Georgeff.
+\newblock Bdi agents: From theory to practice.
+\newblock In {\em ICMAS}, pages 312--319, 1995.
+
+\bibitem{DBLP:conf/ijcai/SakamaSP11}
+C.~Sakama, T.~C. Son, and E.~Pontelli.
+\newblock A logical formulation for negotiation among dishonest agents.
+\newblock In {\em IJCAI}, pages 1069--1074, 2011.
+
+\end{thebibliography}

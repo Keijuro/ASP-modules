@@ -1,0 +1,72 @@
+This is BibTeX, Version 0.99c (TeX Live 2009/Debian)
+The top-level auxiliary file: main.aux
+The style file: abbrv.bst
+Database file #1: main.bib
+A bad cross reference---entry "DBLP:conf/birthday/BaralG11"
+refers to entry "DBLP:conf/birthday/2011gelfond", which doesn't exist
+A bad cross reference---entry "DBLP:conf/atal/BaralGSP10"
+refers to entry "DBLP:conf/atal/2010", which doesn't exist
+A bad cross reference---entry "DBLP:conf/ijcai/SakamaSP11"
+refers to entry "DBLP:conf/ijcai/2011", which doesn't exist
+A bad cross reference---entry "DBLP:conf/icmas/RaoG95"
+refers to entry "DBLP:conf/icmas/1995", which doesn't exist
+A bad cross reference---entry "DBLP:conf/datalog/Costantini10"
+refers to entry "DBLP:conf/datalog/2010", which doesn't exist
+A bad cross reference---entry "DBLP:conf/lpnmr/Costantini09"
+refers to entry "DBLP:conf/lpnmr/2009", which doesn't exist
+A bad cross reference---entry "DBLP:conf/aaaiss/BaralAD06"
+refers to entry "DBLP:conf/aaaiss/2006-5", which doesn't exist
+A bad cross reference---entry "DBLP:conf/clima/NieuwenborghVHV06"
+refers to entry "DBLP:conf/clima/2006", which doesn't exist
+A bad cross reference---entry "DBLP:conf/birthday/FaberW11"
+refers to entry "DBLP:conf/birthday/2011gelfond", which doesn't exist
+Warning--I didn't find a database entry for "DBLP:conf/icmas/1995"
+Warning--I didn't find a database entry for "DBLP:conf/ijcai/2011"
+Warning--I didn't find a database entry for "DBLP:conf/atal/2010"
+Warning--I didn't find a database entry for "DBLP:conf/datalog/2010"
+Warning--I didn't find a database entry for "DBLP:conf/clima/2006"
+Warning--I didn't find a database entry for "DBLP:conf/lpnmr/2009"
+Warning--I didn't find a database entry for "DBLP:conf/aaaiss/2006-5"
+Warning--I didn't find a database entry for "DBLP:conf/birthday/2011gelfond"
+You've used 11 entries,
+            2118 wiz_defined-function locations,
+            585 strings with 6099 characters,
+and the built_in function-call counts, 4759 in all, are:
+= -- 463
+> -- 161
+< -- 10
++ -- 65
+- -- 52
+* -- 271
+:= -- 680
+add.period$ -- 33
+call.type$ -- 11
+change.case$ -- 59
+chr.to.int$ -- 0
+cite$ -- 11
+duplicate$ -- 235
+empty$ -- 429
+format.name$ -- 52
+if$ -- 1115
+int.to.chr$ -- 0
+int.to.str$ -- 11
+missing$ -- 11
+newline$ -- 58
+num.names$ -- 22
+pop$ -- 87
+preamble$ -- 1
+purify$ -- 48
+quote$ -- 0
+skip$ -- 202
+stack$ -- 0
+substring$ -- 334
+swap$ -- 105
+text.length$ -- 10
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 44
+warning$ -- 0
+while$ -- 43
+width$ -- 13
+write$ -- 123
+(There were 9 error messages)

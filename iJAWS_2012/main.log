@@ -1,0 +1,486 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.7.7)  17 AUG 2012 17:19
+entering extended mode
+ %&-line parsing enabled.
+**main.tex aamas2012.cls jsai2e.cls jsaiart-jaws.cls main.aux main.bbl main.bib
+ main.blg main.log main.pdf main.tex module.sty page1.doc page1.pdf pictures
+(./main.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, loaded.
+\c@note=\count79
+\c@example=\count80
+\c@definition=\count81
+(./aamas2012.cls (/usr/share/texmf-texlive/tex/latex/graphics/epsfig.sty
+Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/etc/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
+\Gread@gobject=\count82
+))
+\Gin@req@height=\dimen102
+\Gin@req@width=\dimen103
+)
+\epsfxsize=\dimen104
+\epsfysize=\dimen105
+)
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2009/06/22 v3.00
+
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
+\@emptytoks=\toks15
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
+))
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip41
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf-texlive/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks16
+\ex@=\dimen106
+))
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen107
+)
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count83
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count84
+\leftroot@=\count85
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count86
+\DOTSCASE@=\count87
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen108
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count88
+\c@MaxMatrixCols=\count89
+\dotsspace@=\muskip10
+\c@parentequation=\count90
+\dspbrk@lvl=\count91
+\tag@help=\toks17
+\row@=\count92
+\column@=\count93
+\maxfields@=\count94
+\andhelp@=\toks18
+\eqnshift@=\dimen109
+\alignsep@=\dimen110
+\tagshift@=\dimen111
+\tagwidth@=\dimen112
+\totwidth@=\dimen113
+\lineht@=\dimen114
+\@envbody=\toks19
+\multlinegap=\skip42
+\multlinetaggap=\skip43
+\mathdisplay@stack=\toks20
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+)
+Document Class 'ifaamas-submission'
+Trivial Modification of Document Class 'sig-alternate' <30th. November '06>. Mo
+dified by Keith Decker
+Trivial Modification of Document Class 'sig-alternate' <30th. November '06>. Mo
+dified by G.K.M. Tobin/Gerry Murray
+Based in part upon document Style `acmconf' <22 May 89>. Hacked 4/91 by
+shivers@cs.cmu.edu, 4/93 by theobald@cs.mcgill.ca
+Excerpts were taken from (Journal Style) 'esub2acm.cls'.
+\footheight=\dimen115
+\@maxsep=\dimen116
+\@dblmaxsep=\dimen117
+\aucount=\count95
+\originalaucount=\count96
+\auwidth=\dimen118
+\auskip=\dimen119
+\auskipcount=\count97
+\auskip=\dimen120
+\allauboxes=\dimen121
+\addauthors=\toks21
+\addauflag=\count98
+\subtitletext=\toks22
+\savesection=\count99
+\sectioncntr=\count100
+\c@figure=\count101
+\c@table=\count102
+\titleboxnotes=\toks23
+\titleboxnoteflag=\count103
+Document Class: aamas2012 2009/24/07 - V1.9 - based on acmproc.cls V1.3 <Nov. 3
+0 '99>
+(/usr/share/texmf-texlive/tex/latex/base/latexsym.sty
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
+)
+\@acmtitlebox=\box28
+\titlenotecount=\count104
+\tntoks=\toks24
+\tntokstwo=\toks25
+\tntoksthree=\toks26
+\tntoksfour=\toks27
+\tntoksfive=\toks28
+\catcount=\count105
+\copyrightnotice=\toks29
+\conf=\toks30
+\confinfo=\toks31
+\c@part=\count106
+\c@section=\count107
+\c@subsection=\count108
+\c@subsubsection=\count109
+\c@paragraph=\count110
+
+Using 'Abbrev' bibliography style
+\bibindent=\dimen122
+\colcntr=\count111
+\savebox=\box29
+\authorsForCitation=\toks32
+\titleForCitation=\toks33
+\copyrtyr=\toks34
+\acmcopyr=\toks35
+\boilerplateBefore=\toks36
+\boilerplateAfter=\toks37
+\copyrightetc=\toks38
+(/usr/share/texmf-texlive/tex/latex/base/fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+(/usr/share/texmf-texlive/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+)
+LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
+
+(/usr/share/texmf-texlive/tex/latex/ae/t1aer.fd
+File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
+)))
+(/usr/share/texmf-texlive/tex/latex/graphics/color.sty
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+(/etc/texmf/tex/latex/config/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 130.
+)
+(/usr/share/texmf-texlive/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+
+(/usr/share/texmf-texlive/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count112
+\float@exts=\toks39
+\float@box=\box30
+\@float@everytoks=\toks40
+\@floatcapt=\box31
+)
+(/usr/share/texmf-texlive/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\@float@every@algorithm=\toks41
+\c@algorithm=\count113
+)
+(/usr/share/texmf-texlive/tex/latex/algorithms/algorithmic.sty
+Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
+\c@ALC@unique=\count114
+\c@ALC@line=\count115
+\c@ALC@rem=\count116
+\c@ALC@depth=\count117
+\ALC@tlm=\skip44
+\algorithmicindent=\skip45
+)
+(/usr/share/texmf-texlive/tex/latex/multirow/multirow.sty
+\bigstrutjot=\dimen123
+) (./module.sty
+(/usr/share/texmf-texlive/tex/latex/ltxmisc/boxedminipage.sty)) (./main.aux)
+\openout1 = `main.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 61.
+
+(/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count118
+\scratchdimen=\dimen124
+\scratchbox=\box32
+\nofMPsegments=\count119
+\nofMParguments=\count120
+\everyMPshowfont=\toks42
+\MPscratchCnt=\count121
+\MPscratchDim=\dimen125
+\MPnumerator=\count122
+\everyMPtoPDFconversion=\toks43
+) <page1.pdf, id=1, 520.94624pt x 399.4925pt>
+File: page1.pdf Graphic file (type pdf)
+ <use page1.pdf>
+Overfull \hbox (16.94498pt too wide) in paragraph at lines 64--65
+[][] 
+ []
+
+[1 <./page1.pdf>]
+LaTeX Font Info:    Try loading font information for U+msa on input line 87.
+ (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 87.
+
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2009/06/22 v3.00 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for U+lasy on input line 87.
+
+(/usr/share/texmf-texlive/tex/latex/base/ulasy.fd
+File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
+)
+<pictures/food_chain.png, id=26, 84.315pt x 24.09pt>
+File: pictures/food_chain.png Graphic file (type png)
+
+<use pictures/food_chain.png>
+Overfull \hbox (12.94432pt too wide) in paragraph at lines 152--158
+ [][] 
+ []
+
+
+Underfull \vbox (badness 1478) has occurred while \output is active []
+
+ [2
+
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./pictures/food_chain.png>
+]
+Underfull \hbox (badness 10000) in paragraph at lines 196--203
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 246--247
+
+ []
+
+
+Overfull \hbox (6.19998pt too wide) in paragraph at lines 247--250
+ []$[]$ 
+ []
+
+
+Overfull \hbox (6.19998pt too wide) in paragraph at lines 252--258
+ []$[]$ 
+ []
+
+
+Overfull \hbox (12.64218pt too wide) in paragraph at lines 272--276
+[]\T1/aer/m/it/9 An ob-ser-va-tions
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 279--280
+
+ []
+
+[3]
+Overfull \hbox (6.19998pt too wide) in paragraph at lines 280--284
+ []$[]$ 
+ []
+
+
+Overfull \hbox (6.19998pt too wide) in paragraph at lines 286--290
+ []$[]$ 
+ []
+
+
+Overfull \hbox (2.41731pt too wide) in paragraph at lines 293--302
+\T1/aer/m/n/9 bined these mod-ules, we can pro-duce dif-fer-ent kinds of knowl-
+
+ []
+
+<pictures/module_combination.pdf, id=44, 436.63126pt x 322.20375pt>
+File: pictures/module_combination.pdf Graphic file (type pdf)
+
+<use pictures/module_combination.pdf>
+Overfull \hbox (4.65817pt too wide) in paragraph at lines 321--323
+[]\T1/aer/m/it/9 A com-bi-na-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 334--335
+
+ []
+
+
+Overfull \hbox (6.19998pt too wide) in paragraph at lines 335--344
+ []$[]$ 
+ []
+
+<pictures/hide.pdf, id=46, 436.63126pt x 322.20375pt>
+File: pictures/hide.pdf Graphic file (type pdf)
+ <use pictures/hide.pdf>
+Underfull \hbox (badness 10000) in paragraph at lines 359--360
+
+ []
+
+
+Overfull \hbox (6.19998pt too wide) in paragraph at lines 360--368
+ []$[]$ 
+ []
+
+<pictures/feed.pdf, id=48, 436.63126pt x 322.20375pt>
+File: pictures/feed.pdf Graphic file (type pdf)
+ <use pictures/feed.pdf>
+[4 <./pictures/module_combination.pdf> <./pictures/hide.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 394--395
+
+ []
+
+
+Overfull \hbox (6.19998pt too wide) in paragraph at lines 395--399
+ []$[]$ 
+ []
+
+<pictures/survive.pdf, id=79, 448.67625pt x 209.78375pt>
+File: pictures/survive.pdf Graphic file (type pdf)
+
+<use pictures/survive.pdf>
+Overfull \hbox (1.72658pt too wide) in paragraph at lines 412--417
+[]\T1/aer/m/n/9 Multiple meta-knowledge mod-ules can rep-re-sent an agent's
+ []
+
+<pictures/behaviour_tree.pdf, id=81, 447.6725pt x 312.16624pt>
+File: pictures/behaviour_tree.pdf Graphic file (type pdf)
+
+<use pictures/behaviour_tree.pdf>
+Underfull \vbox (badness 6808) has occurred while \output is active []
+
+ [5 <./pictures/feed.pdf> <./pictures/survive.pdf> <./pictures/behaviour_tree.p
+df>]
+<pictures/framework.pdf, id=119, 266.9975pt x 299.1175pt>
+File: pictures/framework.pdf Graphic file (type pdf)
+
+<use pictures/framework.pdf>
+<pictures/modular_knowledge.pdf, id=121, 447.6725pt x 410.53375pt>
+File: pictures/modular_knowledge.pdf Graphic file (type pdf)
+
+<use pictures/modular_knowledge.pdf>
+Underfull \hbox (badness 10000) in paragraph at lines 532--534
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 534--536
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 536--538
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 539--541
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 547--549
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 554--556
+
+ []
+
+[6 <./pictures/framework.pdf> <./pictures/modular_knowledge.pdf>]
+<pictures/modular_knowledge_experiment.pdf, id=158, 448.67625pt x 490.83376pt>
+File: pictures/modular_knowledge_experiment.pdf Graphic file (type pdf)
+
+<use pictures/modular_knowledge_experiment.pdf>
+<pictures/environment_1.png, id=160, 210.7875pt x 210.7875pt>
+File: pictures/environment_1.png Graphic file (type png)
+
+<use pictures/environment_1.png>
+<pictures/environment_2.png, id=161, 210.7875pt x 210.7875pt>
+File: pictures/environment_2.png Graphic file (type png)
+
+<use pictures/environment_2.png>
+<pictures/environment_3.png, id=162, 210.7875pt x 210.7875pt>
+File: pictures/environment_3.png Graphic file (type png)
+
+<use pictures/environment_3.png> [7 <./pictures/modular_knowledge_experiment.pd
+f> <./pictures/environment_1.png (PNG copy)>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [8 <./pictures/environment_2.png (PNG copy)> <./pictures/environment_3.png (PN
+G copy)>]
+Overfull \hbox (20.94107pt too wide) in paragraph at lines 706--711
+\T1/aer/m/n/9 to in-tu-itively im-ple-ments dy-namic be-haviours via meta-reaso
+ning.
+ []
+
+(./main.bbl) [9
+
+] (./main.aux) ) 
+Here is how much of TeX's memory you used:
+ 2667 strings out of 495061
+ 31978 string characters out of 1182622
+ 102520 words of memory out of 3000000
+ 5767 multiletter control sequences out of 15000+50000
+ 49359 words of font info for 69 fonts, out of 3000000 for 9000
+ 28 hyphenation exceptions out of 8191
+ 39i,11n,26p,591b,580s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texmf-tex
+live/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/share/texmf-texlive/font
+s/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-texlive/fonts/type1/pu
+blic/amsfonts/cm/cmmi6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfont
+s/cm/cmmi9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr6.pf
+b></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share
+/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texmf-texli
+ve/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texmf-texlive/fonts/typ
+e1/urw/times/utmb8a.pfb>
+Output written on main.pdf (9 pages, 363246 bytes).
+PDF statistics:
+ 220 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 66 words of extra memory for PDF output out of 10000 (max. 10000000)
+
