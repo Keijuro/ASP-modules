@@ -82,7 +82,7 @@
 	and \cite{DBLP:conf/aaaiss/BaralAD06} where authors are interested in modularity.
 	In this work, our interest is about representing agent reasoning in dynamic environment.
 	
-	Here, we divide the knowledge of an agent in two part:
+	We divide the knowledge of an agent in two parts:
 	\begin{itemize}
 		\item $K$: non-revisable knowledge which consists of:
 		\begin{itemize}
@@ -96,9 +96,9 @@
 	\end{itemize}
 		
 	In such environment, an agent has to adapt to the evolution of the world to achieve his goals.
-	Agent's knowledge has to be updated regarding world changes by adding new observations and revising old ones.
+	Agent's knowledge has to be updated regarding world changes by adding new observations and updating old ones.
 	
-	Let $C_{T}, O_{T}, M_{T}$ be $C$, $O$ and $M$ at time step T and $\circ$ a belief revision operator.
+	Let $C_{T}, O_{T}, M_{T}$ be $C$, $O$ and $M$ at time step T and $\diamond$ a belief update operator.
 	\begin{itemize}
 		\item $C_{0} = C$, $O_{0} = \emptyset$, $M_{0} = \emptyset$
 		\item $C_{T+1} = C_{T}$, $O_{T} = obs(T)$, $M_{T+1} = M_{T} \diamond O_{T}$
@@ -118,7 +118,7 @@
 
 	For example, let's suppose that an agent $a$ sees another agent $b$ at position $p$ at time $T$.
 	Now, at $T+1$, $a$ sees neither the position $p$ nor the agent $b$, then $a$ can assume that $b$ is always at position $p$ at $T+1$.
-	When $a$ sees again the position $p$ or the agent $b$, he will revise $M$ if needed.
+	When $a$ sees again the position $p$ or the agent $b$, he will update $M$ if needed.
 	
 	To make our work more understandable we will follow an intuitive example along our propositions: a survival game which represent a MAS in a dynamic environment.
 	In this game there are three groups of agents: wolves, rabbits and flowers.
@@ -204,7 +204,7 @@
 	
 	In example \ref{ASP_example}, the set of facts \{\emph{rain}, \emph{stay}\} is an answer set of the ASP program, but \{\emph{rain}, \emph{go\_out}, \emph{wet}\} is not, 
 	because it contains \emph{wet} which is not consistent with the constraint \emph{$\leftarrow$ wet}.
-	
+
 	Many research work use ASP to represent knowledge and reasoning such as \cite{DBLP:conf/atal/BaralGSP10} or \cite{DBLP:conf/clima/NieuwenborghVHV06}.
 	In the first one, the authors use it to represent agent knowledge about other agents knowledge.
 	In the second one, they focus on the flexibility of reasoning by introducing soft constraints: constraints which can be violate in some case.
@@ -227,34 +227,35 @@
 
 	Following previous distinction of agent knowledge we define a typology to represent common theory $C$ and observations memory $M$,
 	respectively by \emph{theory modules} and \emph{observations modules}.
-	To represent knowledge about module combinations we define \emph{meta-knowledge modules}.
-	There are is two kind of such modules, the ones who produce or use knowledge to make decision and the ones who represent a unique module combination.
-	In the following figures, we represent \emph{observation modules} by dot rectangles and  \emph{theory} one by plain rectangles.
-	To distinguish \emph{meta-knowledge modules} which make decisions, from the ones who represent a combination, we represent them respectively by plain and dot circles.
-	Modules represented by dot form only contain facts and plain ones can contain rules and constraints.
+	In the following figures, we represent \emph{theory modules} by plain rectangles and \emph{observations modules} by dot rectangles.
 
 	\begin{definition}[Theory module]
 		A theory module is a set of rules which represent knowledge about a specific domain.
-		The set of all theory modules of an agent represent his background knowledge.
-		The purpose of these modules is to organise knowledge representation and produce
-		new knowledge by combining it with others modules.
+		The set of all theory modules of an agent represent his background knowledge: the common theory $C$.
 	\end{definition}
 	
 	\begin{example}
 		\label{theory_example}
 		
 		A theory module of a rabbit about movement and one about actions where A is an agent, P a position and S a number of time step:\newline
-		\begin{module}{Move}{8cm}
-			reachable(A,P,$\frac{D}{N}$) $\leftarrow$ distance(A,P,D), nb\_action(A,N).\newline
-			reachable(A,P) $\leftarrow$ reachable(A,P,0).
+		\begin{module}{Move}{8.4cm}
+			can\_reach(A,P,D/N) $\leftarrow$ distance(A,P,D), nb\_action(A,N).\newline
+			can\_reach(A,P) $\leftarrow$ can\_reach(A,P,0).
 		\end{module}
 		
-		\begin{module}{Action}{8cm}
-			nb\_action(me,3).\newline
+		\begin{module}{Action}{8.4cm}
 			nb\_action(wolf,4).\newline
-			0\{move(me,P)\}1 $\leftarrow$ reachable(me,P).\newline
-			$\leftarrow$ move(A,P1), move(A,P2), P1 != P2.\newline
-			$\leftarrow$ move(me,P), reachable(wolf,P).
+			nb\_action(rabbit,3).\newline
+			\newline
+			0\{action(move(P))\}1 $\leftarrow$ can\_reach(me,P).\newline
+			0\{action(eat)\}1 :- can\_eat.\newline
+			0\{action(hide)\}1 :- can\_hide.\newline
+			\newline
+			$\leftarrow$ action(A1), action(A2), A1 != A2.\newline
+			danger $\leftarrow$ action(move(P)), can\_reach(wolf,P).\newline
+			danger $\leftarrow$ action(hide), position(me,P), see(wolf,P).\newline
+			danger $\leftarrow$ action(eat), position(me,P), can\_reach(wolf,P).\newline
+			$\leftarrow$ danger.
 		\end{module}
 		
 	\end{example}
@@ -270,23 +271,22 @@
 
 	\begin{definition}[Observations module]
 		An observations module is a set of facts which represents related observations.
-		The content of such module is dynamic: it changes regarding time.
-		The set of all observations modules of an agent represents his memory M: current and past observations.
-		The purpose of these modules is to organise observations to facilitate their use and update.
+		The content of such module changes regarding time.
+		The set of all observations modules of an agent represents his memory $M$.
 	\end{definition}
 	
 	\begin{example}
 		An observations module of a rabbit about wolves positions and one about himself :\newline
 		\begin{module}{Wolf}{6cm}
 			position(wolf,coord(0,3)).\newline
-			position(wolf,coord(2,5)).\newline
-			position(wolf,coord(2,6)).
+			position(wolf,coord(-1,2)).\newline
+			position(wolf,coord(2,-4)).
 		\end{module}
 		
 		\begin{module}{Myself}{6cm}
 			me("Bugs Bunny").\newline
 			position(me,coord(0,0)).\newline
-			type(me,rabbit).
+			nb\_action(me,3).
 		\end{module}
 	\end{example}
 
@@ -298,8 +298,8 @@
 	By combining \{\emph{Myself}, \emph{Field}, \emph{Flower}, \emph{Move}, \emph{Eat}, \emph{Action}\} 
 	a rabbit will produce all possible actions he can perform now and their influence on the number of steps needed to eat each flower.
 	We can see here a first advantage of knowledge modularity: a module can be used for multiple purposes.
-	If we take the example of modules \emph{Move} and \emph{Eat}, an agent can use them to reason about its possibilities and the ones of others agents.
-	
+	If we take the example of modules \emph{Move} and \emph{Eat}, an agent can use them to reason about his possibilities and the ones of others agents.
+
 	\begin{figure}
 		\centering
 		\includegraphics[keepaspectratio=true, scale=0.4]{module_combination.pdf}
@@ -314,168 +314,96 @@
 	But these combinations are also a kind of knowledge and it can be known by the agent.
 	For an agent, it is meta-knowledge on his knowledge, more precisely in this case it is knowledge about the use of his knowledge.
 	This meta-knowledge is a part of the common theory of an agent and could be represented by theory modules.
-	But to clarify the design of agent knowledge we dedicated a new kind of modules to represent it: meta-knowledge module.
-	We define two kinds of these modules: combination module and decision module.
+	But to clarify the design of agent knowledge we dedicated a new kind of modules to represent it: \emph{meta-knowledge modules}.
+	We define two kinds of these modules: \emph{combination modules} and \emph{decision modules}.
+	The first ones represent a unique module combination.
+	The second ones use theory and observations to make decision on which module combination to use for reasoning.
+	To distinguish \emph{decision modules} and \emph{combination module}, we represent them respectively by plain and dot circles.
+	Modules represented by dot form only contain facts and plain ones can contain rules and constraints.
 	
 	\begin{definition}[Combination module]
-		A combination module is a meta-knowledge module which represent an ASP modules combination.	
-		The purpose of these modules is to represent simple behaviours and factorise meta-knowledge.
+		A combination module is a meta-knowledge module which represent a unique ASP modules combination.
+		This combination can include all kind of modules.
 	\end{definition}
 	
-	A module combination can represent agent behaviour and by using meta-knowledge modules we can represent it in agent knowledge.
-	The most simple behaviours can be represented by a simple list of modules to combine, like in examples \ref{hide_example}, 
-	\ref{feed_example} and figures \ref{hide_figure}, \ref{feed_figure}.
-	The module combination \{\emph{Wolf}, \emph{Myself}, \emph{Hiding}, \emph{Action}, \emph{Move}, \emph{Eat}, \emph{View}, \emph{Field}\} 
-	and \{\emph{Myself}, \emph{Action}, \emph{Move}, \emph{Eat}, \emph{Field}, \emph{Flower}, \emph{Rabbit}\} 
-	can respectively represent \emph{hide} and \emph{feed} behaviours of a rabbit.
-	
 	\begin{example}
-		\label{hide_example}
-		A meta-knowledge module which represent rabbit \emph{hide} behaviour:\newline
-		\begin{module}{Run away}{6cm}
-			\textbf{use\_module}("Wolf").\newline
-			\textbf{use\_module}("Myself").\newline
-			\textbf{use\_module}("Hiding").\newline
-			\textbf{use\_module}("Action").\newline
-			\textbf{use\_module}("Move").\newline
-			\textbf{use\_module}("Eat").\newline
-			\textbf{use\_module}("View").\newline
-			\textbf{use\_module}("Field").
+		\label{hiding_example}
+		A combination module which represent the module combination to reason about hiding:\newline
+		\begin{module}{My hiding places}{6.5cm}
+			\#include("View").\newline
+			\#include("Hiding").\newline
+			\#include("Field").\newline
+			\#include("Myself").\newline
+			\#include("Wolf").
 		\end{module}
 	\end{example}
 	
 	\begin{figure}
 		\centering
-		\includegraphics[keepaspectratio=true, scale=0.4]{hide.pdf}
+		\includegraphics[keepaspectratio=true, scale=0.55]{meta_knowledge.pdf}
 		\caption
 		{
-			\label{hide_figure}
-			A meta-knowledge module (circle one) about \emph{hide} behaviour linked to modules it combines.
+			\label{meta-knowledge}
+			Rabbit meta-knowledge representation by \emph{combination modules} (dot circle).
 		}
 	\end{figure}
 	
-	\begin{example}
-		\label{feed_example}
-		A meta-knowledge module which represent rabbit \emph{feed} behaviour:\newline
-		\begin{module}{Feed}{6cm}
-			\textbf{use\_module}("Myself").\newline
-			\textbf{use\_module}("Action").\newline
-			\textbf{use\_module}("Move").\newline
-			\textbf{use\_module}("Eat").\newline
-			\textbf{use\_module}("Field").\newline
-			\textbf{use\_module}("Flower").\newline
-			\textbf{use\_module}("Rabbit").
-		\end{module}
-	\end{example}
-	
-	\begin{figure}
-		\centering
-		\includegraphics[keepaspectratio=true, scale=0.4]{feed.pdf}
-		\caption
-		{
-			\label{feed_figure}
-			A meta-knowledge module about \emph{feed} behaviour linked to modules it combines.
-		}
-	\end{figure}
+	Meta-knowledge about modules combinations can be used to divide agent reasoning into multiple part to clarify its representation,
+	like in figure \ref{meta-knowledge}.
+	Furthermore, meta-knowledge can be used to optimize reasoning by reducing the use of knowledge.
+	Using \emph{decision modules} we can exploit this representation to control agent reasoning and optimize it.
 	
 	\begin{definition}[Decision module]
 		A decision module is a meta-knowledge module which defines the conditions to use ASP modules combinations.	
 		The purpose of these modules is to represent dynamic behaviours by performing decision on how to reason and use knowledge.
 	\end{definition}
 	
-	To represent more complex behaviours, meta-knowledge modules need knowledge on other meta-knowledge modules.
-	Decision modules contain such knowledge, it can be used to represent dynamic behaviours and perform meta-reasoning.
-	The \emph{survive} behaviour of a rabbit can be represent by such module, like in example \ref{survive_example} and figure \ref{survive_figure}.
-	If a rabbit spotted a wolf it will use the \emph{Hunted} module. Otherwise it will use the \emph{Hunting} module.
-	The \emph{survive} behaviour is dynamic: it depends on the current state of the world.
-	
 	\begin{example}
 		\label{survive_example}
-		A meta-knowledge module which describes the \emph{survive} behaviour of a rabbit:\newline
+		A decision module which describes the \emph{survive} behaviour of a rabbit:\newline
 		\begin{module}{Survive}{6.5cm}
+			\#include("Wolf").\newline
 			predator $\leftarrow$ position(wolf,Position).\newline
-			\textbf{use\_module}("Hunted") $\leftarrow$ predator.\newline
-			\textbf{use\_module}("Hunting") $\leftarrow$ not predator.
+			\textbf{next}("Hunted") $\leftarrow$ predator.\newline
+			\textbf{next}("Hunting") $\leftarrow$ not predator.
 		\end{module}
 	\end{example}
 	
 	\begin{figure}
 		\centering
-		\includegraphics[keepaspectratio=true, scale=0.4]{survive.pdf}
+		\includegraphics[keepaspectratio=true, scale=0.55]{modular_knowledge.pdf}
 		\caption
 		{
-			\label{survive_figure}
-			A meta-knowledge module with knowledge about meta-knowledge module.
+			\label{modular_knowledge}
+			Partial representation of rabbit reasoning by an ASP modules graph
+			(Completed by figure \ref{meta-knowledge}).
 		}
 	\end{figure}
 	
-	Multiple meta-knowledge modules can represent an agent's global behaviour.
-	Figure \ref{behaviour_tree} represents rabbit's behaviour by a meta-knowledge modules tree.
+	These modules are used to make decision on what it is useful to reason about regarding the situation.
 	The behaviour of a rabbit is to survive, regarding the situation a rabbit is hunted by a wolf or not.
-	When hunted, a rabbit has to run away if wolves are close or to search for a hiding place if not.
-	If there is no predator, he will explore his environment to find flowers and when one is spotted, find a way to eat it.
-	
-	\begin{figure}
-		\centering
-		\includegraphics[keepaspectratio=true, scale=0.5]{behaviour_tree.pdf}
-		\caption
-		{
-			\label{behaviour_tree}
-			Representation of rabbit behaviour by a tree of meta-knowledge module.
-			Decision module are represented by plain circle and combination modules by dot ones.
-		}
-	\end{figure}
+	This behaviour is represented by \emph{survive} module in example \ref{survive_example}.
+	This \emph{decision module} use observations about wolves to decide of the next reasoning step.
+	Agent behaviours can be represent step by step by a graph of such modules, like in figure \ref{modular_knowledge}.
+	In this representation, \emph{combinations modules} are used to factorise meta-knowledge.
+	By removing module \emph{My actions} from figure \ref{meta-knowledge} and fusion it with figure \ref{modular_knowledge} we
+	obtain the entire reasoning representation of a rabbit.
 	
 \section{Framework}
 
 	The previous section shows how ASP modules can represent agent common theory, observations and behaviours.
 	To use this representation we define a reasoning architecture and a framework to use it in agent applications.
-	As shown in figure \ref{framework_figure}, we divide agent reasoning into a cycle of three phases : acquisition-deduction-action.
+	As shown in figure \ref{framework_figure}, we divide agent reasoning into a cycle of three phases : acquisition-analyse-action.
 	
-	Our framework is different from the one of \cite{DBLP:journals/amai/KowalskiS99} which is observe-think-act.
-	Here, the acquisition phase is not limited to the storage of new observations.
+	Our framework is similar from the one of \cite{DBLP:journals/amai/KowalskiS99} which is observe-think-act.
+	One difference here, is that the acquisition phase is not limited to the storage of new observations.
 	During this phase, agent memory is updated to make it consistent with new observations.
 	Old ones are modified and new ones are then stored in corresponding observations modules.
 	If a rabbit sees a wolf at position P at time step T, he will store the information \emph{position(wolf,P)} in module \emph{Wolf}.
-	Now at T+1 the rabbit sees position P but no wolf is at P, therefore the rabbit has to remove the fact \emph{position(rabbit,P)} from module \emph{Wolf}.
+	Now at T+1 the rabbit sees position P but no wolf is at P, therefore the rabbit has to remove the fact \emph{position(wolf,P)} from module \emph{Wolf}.
 	The agent can also make direct deduction from observations: after a move, an agent will update his position regarding his previous one and the movement he performed.
 	This phase is named acquisition, because the agent acquires observations by deducing their direct consequences on his memory.
 	
-	Having acquired observations, an agent will reason on what he can do regarding the current state of the world: it is the deduction phase.
-	The purpose of this reasoning phase is to deduce what actions are possible to perform.
-	Here we use an agent reasoning architecture based on ASP modules where meta-knowledge modules are used for reasoning.
-	Decision modules use the agent's observations to define his behaviour and generate actions step by step.
-	Knowledge produced by module combination is kept in next reasoning steps, 
-	it means that answer set of the last reasoning step contains all deduction of previous ones.
-	These last answer sets contain actions and their consequences on the environment and the agent.
-	
-	The figure \ref{modular_knowledge} represents rabbit's knowledge by an ASP modules graph.
-	A node represents an ASP module and an edge represents the use of a module.
-	Edges with plain arrows represent reasoning decisions and open ones represent module combination.
-	In this representation, decision modules represent reasoning step.
-	Here, meta-knowledge modules represent agent behaviour like in figure \ref{behaviour_tree}.
-	In the example of figure \ref{modular_knowledge}, 
-	the deduction phase will start by using \emph{Behaviour} module which specifies to combine \emph{Survive} module with wolves observations.
-	By combining these modules the rabbit will decide if he is hunted or has to hunt.
-	When he is hunted, he will use \emph{Hunted} module to decide if he has to run away or hide.
-	Let's suppose that a wolf is too close to hide, then he will choose to run away, otherwise he will reason about where he can hide.
-	In the case where there is no wolf, the rabbit will use \emph{Hunting} module with flowers observations.
-	If there is no flower he will use \emph{Explore} module and when flowers are spotted he will use \emph{Feed} module.
-	
-	Module combination specifies by \emph{Run away} module generates all possible movements and the number of steps needed by each wolves to eat the rabbit after his move.
-	The one of \emph{Hide} module add the theory module \emph{Hiding} and \emph{View} to this combination, to reason about where to hide regarding wolves sight range. 
-	\emph{View} is also used with \emph{Discover} in \emph{Explore} module combination.
-	Here, it is the knowledge about rabbits range of view that is used to reason about environment exploration.
-	Finally, the module combination of \emph{Feed} module generates eating possibilities.
-	It includes observations about other rabbits to compute if a flower can be eaten by another rabbit before the agent.
-	
-	Now the agent has to choose which actions to perform, it means choosing an answer set which allows him to approach or reach his goals.
-	To make this choice we can use constraint and use some modules to compute scores to rank answer sets.
-	Here, module \emph{Eat} computes the number of actions a predator has to perform to eat a prey.
-	This module can be used by a rabbit to rank movement actions to go far away from a wolf or to approach and eat a flower.
-	After choosing the best answer set, corresponding actions are performed and 
-	the cycle continues with the acquisition of the real effect of these actions on the environment.
-
 	\begin{figure}
 		\centering
 		\includegraphics[keepaspectratio=true, scale=0.4]{framework.pdf}
@@ -485,16 +413,42 @@
 			Agent reasoning cycle.
 		}
 	\end{figure}
+	
+	Having acquired observations, an agent will reason on what he can do regarding the current state of the world: it is the analyse phase.
+	The purpose of this reasoning phase is to deduce what actions are possible to perform and their consequences.
+	Here we use an agent reasoning architecture based on ASP modules where meta-knowledge modules are used for reasoning.
+	\emph{Decision modules} use the agent's observations to define his behaviour and generate actions step by step.
+	
+	The figure \ref{modular_knowledge} represents rabbit's knowledge by an ASP modules graph.
+	A node represents an ASP module and an edge represents the use of a module.
+	Edges with plain arrows represent reasoning decisions and dot ones represent a module combination.
+	In this representation, \emph{decision modules} represent reasoning step.
+	In the example of figure \ref{modular_knowledge}, the analyse phase will start by using \emph{Survive} module with wolves observations.
+	By combining these modules the rabbit will decide if he is hunted or has to hunt.
+	When he is hunted, he will use \emph{Hunted} module to decide if he has to run away or hide.
+	Let's suppose that a wolf is too close to hide, then he will choose to run away, otherwise he will reason about where he can hide.
+	In the case where there is no wolf, the rabbit will use \emph{Hunting} module with flowers observations.
+	If there is no flower he will use \emph{Explore} module and when flowers are spotted he will use \emph{Feed} module.
+	
+	Module combination specifies by \emph{Run away} module generates all possible movements and the number of steps needed by each wolves to eat the rabbit after his move.
+	The one of \emph{Hide} module is used to reason about where to hide regarding wolves sight range. 
+	\emph{Explore} module combination will generate all movement regarding the possibilities of discover new part of the field.
+	Here, it is the knowledge about rabbits range of view that is used to reason about environment exploration.
+	Finally, the module combination of \emph{Feed} module generates eating possibilities.
+	
+	Now the agent has to choose which actions to perform, it means choosing an answer set which allows him to approach or reach his goals.
+	To make this choice we can use constraint and use some modules to compute scores to rank answer sets.
+	Here, module \emph{Eat} computes the number of actions a predator has to perform to eat a prey.
+	This module can be used by a rabbit to rank movement actions to go far away from a wolf or to approach and eat a flower.
+	After choosing the best answer set, corresponding actions are performed and 
+	the cycle continues with the acquisition of the real effect of these actions on the environment.
 
-	\begin{figure}
-		\centering
-		\includegraphics[keepaspectratio=true, scale=0.5]{modular_knowledge.pdf}
-		\caption
-		{
-			\label{modular_knowledge}
-			Representation of rabbit knowledge by an ASP modules graph.
-		}
-	\end{figure}
+	Regarding observe-think-act framework, ours can be sum up as:
+	\begin{itemize}
+		\item acquisition phase: observe, think, update.
+		\item analyse phase: think, decide, think, \ldots, decide, think.
+		\item action phase: decide, act.
+	\end{itemize}
 	
 \subsection{Implementation}
 
@@ -509,11 +463,11 @@
 
 	Let's take again the example of the figure \ref{modular_knowledge} and let's suppose that the rabbit only acquires a set of new observations.
 	First our agent will run the algorithm with the set of modules \{\emph{Behaviour}\} as input.
-	This module will return one answer set which contains two literals: \emph{use\_module("Wolf")}, \emph{use\_module("Survive")}.
-	Interpreting keywords \emph{use\_module}, the cycle continue by calling recursively the algorithm with \emph{Survive} module and wolf observations as input.
-	A wolf is spotted, the answer set contains now \emph{use\_module("Hunted")}.
+	This module will return one answer set which contains two literals: \emph{next("Wolf")}, \emph{next("Survive")}.
+	Interpreting keywords \emph{next}, the cycle continue by calling recursively the algorithm with \emph{Survive} module and wolf observations as input.
+	A wolf is spotted, the answer set contains now \emph{next("Hunted")}.
 	Wolves observations are stored into a temporary module and combined with \emph{Hunted} module.
-	A wolf is very near, the new answer set now contains \emph{use\_module("Run away")} and wolves observations.
+	A wolf is very near, the new answer set now contains \emph{next("Run away")} and wolves observations.
 	Wolves observations are stored again in a temporary module and combine with \emph{Run away} module.
 	This combination specifies that the next one is \{\emph{Field}, \emph{Move}, \emph{Action}, \emph{Eat}, \emph{Myself}\}.
 	Finally, the algorithm returns a set of answer sets which contains a movement action and its consequences.
@@ -533,23 +487,23 @@
 	\newline
 	\STATE AS a set of answer set
 	\newline
-	\STATE AS $\leftarrow$ \emph{clingo}(M)
+	\STATE AS $\leftarrow$ \emph{ASPsolver}(M)
 	\newline
 	\FOR {each answer set S of AS}
 		\STATE M $\leftarrow \emptyset$ 
 		\newline
 		\STATE // Extract keywords
 		\FOR {every literal L of S}
-			\IF {L = "use\_module(Module)"}
-				\STATE M $\leftarrow$ M $\cup$ Module
-				\STATE S $\leftarrow$ S $/$ L
+			\IF {L = "next(Module)"}
+				\STATE M $\leftarrow$ M $\cup$ \{Module\}
+				\STATE S $\leftarrow$ S $\backslash$ L
 			\ENDIF
 		\ENDFOR
 		\newline
 		\IF {M $\neq$ $\emptyset$}
 			\STATE // Add S to M as a module
 			\STATE M $\leftarrow$ M $\cup$ module(S)
-			\STATE combine(M)
+			\RETURN combine(M)
 		\ENDIF
 	\ENDFOR
 	\newline
@@ -572,25 +526,25 @@
 	The difference between modular and monolithic representation is that,
 	the first one can avoid the use of flowers observations and hiding possibility computation whereas the second one can not.
 	
+	\begin{figure}
+		\centering
+		\includegraphics[keepaspectratio=true, scale=0.45]{application.png}
+		\caption
+		{
+			\label{application}
+			Experimental application based on the survival game example.
+		}
+	\end{figure}
+	
 \subsection{Context}
 	
 	In these experiments, the rabbit's observations encompass the entire map, 
 	this agent knows what is on each square: that includes the position of wolves, flowers and hiding place.
-	The figure \ref{modular_knowledge_experiment} represents the modular knowledge of the rabbit.
+	The figure \ref{modular_knowledge} represents the modular knowledge of the rabbit.
 	It is a simplified version of the one of figure \ref{modular_knowledge}, where rabbits have two behaviours: \emph{Hide} and \emph{Feed}.
 	Here the rabbit have no fellows, there is no \emph{Rabbit} observations module.
 	Monolithic representation always uses the entire knowledge base which correspond to the module combination
 	\{\emph{Myself}, \emph{Wolf}, \emph{Flower}, \emph{Field}, \emph{Move}, \emph{Action} \emph{Eat}, \emph{Hiding}\}.
-	
-	\begin{figure}
-		\centering
-		\includegraphics[keepaspectratio=true, scale=0.4]{modular_knowledge_experiment.pdf}
-		\caption
-		{
-			\label{modular_knowledge_experiment}
-			Rabbit knowledge in experiments, simplified to behaviours \emph{hide} and \emph{feed}.
-		}
-	\end{figure}
 	
 	For these experiments, we use 4 different environments represented by figure \ref{environment_1}, \ref{environment_2} and \ref{environment_3}.
 	The fourth environment is equivalent to the third one but ten times bigger regarding the number of squares, flowers and hiding places.
@@ -718,7 +672,7 @@
 % The following two commands are all you need in the
 % initial runs of your .tex file to
 % produce the bibliography for the citations in your paper.
-\bibliographystyle{abbrv}
+\bibliographystyle{apalike}
 \bibliography{main}  % sigproc.bib is the name of the Bibliography in this case
 % You must have a proper ".bib" file
 %  and remember to run:
